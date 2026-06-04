@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The End 💜</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/friend.css">
+    <style>
+        body { background: #000; }
+        .glow-text { text-shadow: 0 0 20px var(--color-secondary); }
+    </style>
+</head>
+<body>
+    <div id="particles-js" style="position: fixed; width: 100%; height: 100%; z-index: -1;"></div>
+    
+    <main class="container py-20 text-center min-vh-100 d-flex flex-column justify-content-center align-items-center">
+        <h1 id="endTitle" class="display-1 fw-bold mb-4 glow-text">Here's to 6 more months.</h1>
+        <h2 class="display-3 mb-5" data-aos="fade-up" data-aos-delay="500">And then forever. 💜</h2>
+        <p class="fs-3 mb-10" data-aos="fade-up" data-aos-delay="1000">Half a year of you. I'd choose every second again.</p>
+
+        <div id="finalMessage" class="mt-20">
+            <h3 class="display-4" data-aos="zoom-in" data-aos-delay="2000">The End. ❤️</h3>
+            <div class="mt-10" data-aos="fade-up" data-aos-delay="2500">
+                <a href="choose.html" class="text-white opacity-50 text-decoration-none">← Choose another path</a>
+            </div>
+        </div>
+    </main>
+
+    <button id="musicToggleBtn" onclick="MusicSystem.toggle()"
+      style="position:fixed; bottom:20px; right:20px; z-index:9999;
+             background:rgba(255,255,255,0.1); border:none; border-radius:50%;
+             width:48px; height:48px; font-size:20px; cursor:pointer;
+             backdrop-filter:blur(10px);">🎵</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/friend.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            launchPetals('particles-js');
+            
+            setTimeout(() => {
+                if (typeof MusicSystem.fadeToOutro === 'function') {
+                    MusicSystem.fadeToOutro();
+                }
+            }, 2000);
+
+            setTimeout(() => {
+                confetti({ 
+                    particleCount: 400, spread: 220, 
+                    origin: { y: 0.45 },
+                    colors: ['#7B5EA7','#E8A0BF','#B5D5C5','#fff','#FFD700'] 
+                });
+                
+                gsap.from('#endTitle', { opacity:0, scale:0.5, duration:1.2, ease:'back.out(1.7)' });
+            }, 1500);
+
+            setTimeout(() => {
+                Swal.fire({
+                    title: '6 months. 💜',
+                    html: '[MOSES WRITES: Final message — 2-3 emotional sentences]',
+                    imageUrl: 'images/us/us-1.jpg',
+                    imageWidth: 220,
+                    confirmButtonText: '💜 Always',
+                    confirmButtonColor: '#7B5EA7',
+                    allowOutsideClick: false,
+                    allowEscapeKey: false
+                });
+            }, 4500);
+        });
+    </script>
+</body>
+</html>

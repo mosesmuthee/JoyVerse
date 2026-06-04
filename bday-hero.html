@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Happy Birthday, Joy! 🎂</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/bday.css">
+    <style>
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/joy/joy-bg.jpg');
+            background-size: cover;
+            background-position: center;
+            min-height: 100vh;
+        }
+        .countdown-box {
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
+            border-radius: 15px;
+            padding: 20px;
+            min-width: 100px;
+        }
+    </style>
+</head>
+<body>
+    
+    <section class="hero-section d-flex flex-column justify-content-center align-items-center text-center p-4">
+        <h1 id="bdayTitle" class="display-1 fw-bold mb-3">Happy Birthday, Joy. 🎂</h1>
+        <p id="bdaySubtitle" class="fs-2 mb-5">Today is entirely and completely yours.</p>
+        <div id="bdayScroll" class="animate-bounce mt-5">
+            <span class="fs-1">↓</span>
+        </div>
+    </section>
+
+    <section class="py-20 bg-black text-center relative overflow-hidden">
+        <div id="particles-stars" class="absolute inset-0 z-0"></div>
+        <div class="container relative z-10">
+            <h2 class="display-4 mb-5" data-aos="fade-up">You have been on this earth for...</h2>
+            
+            <div class="d-flex justify-content-center gap-3 flex-wrap mb-5" data-aos="zoom-in">
+                <div class="countdown-box"><span id="cnt-yrs" class="display-4 fw-bold d-block">0</span> Years</div>
+                <div class="countdown-box"><span id="cnt-days" class="display-4 fw-bold d-block">0</span> Days</div>
+                <div class="countdown-box"><span id="cnt-hrs" class="display-4 fw-bold d-block">0</span> Hours</div>
+                <div class="countdown-box"><span id="cnt-mins" class="display-4 fw-bold d-block">0</span> Mins</div>
+                <div class="countdown-box"><span id="cnt-secs" class="display-4 fw-bold d-block">0</span> Secs</div>
+            </div>
+
+            <p class="fs-3 mb-10" data-aos="fade-up" data-aos-delay="200">Every single second was worth it. 💛</p>
+            
+            <button onclick="navigateTo('bday-gallery.html')" class="btn-glow px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up" data-aos-delay="400">
+                See your photos →
+            </button>
+        </div>
+    </section>
+
+    <button id="musicToggleBtn" onclick="MusicSystem.toggle()"
+      style="position:fixed; bottom:20px; right:20px; z-index:9999;
+             background:rgba(255,255,255,0.1); border:none; border-radius:50%;
+             width:48px; height:48px; font-size:20px; cursor:pointer;
+             backdrop-filter:blur(10px);">🎵</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/bday.js"></script>
+    <script>
+        window.addEventListener('load', () => {
+            launchStars('particles-stars');
+            
+            confetti({ 
+                particleCount: 200, 
+                spread: 160, 
+                origin: { y: 0.4 },
+                colors: ['#D4A017', '#F4A7B9', '#8B1A2F', '#fff'] 
+            });
+
+            gsap.timeline()
+                .from('#bdayTitle',    { opacity:0, y:50, duration:1.2, delay:0.3 })
+                .from('#bdaySubtitle', { opacity:0, y:30, duration:0.9 }, '-=0.4')
+                .from('#bdayScroll',   { opacity:0, duration:0.6 }, '-=0.2');
+        });
+    </script>
+</body>
+</html>

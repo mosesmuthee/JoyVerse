@@ -1,0 +1,460 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Choose Your Path 🗺️</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <style>
+        *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+        body {
+            min-height: 100vh;
+            /* Deep nude/mauve base — matches the burgundy-gold-purple scheme but dark and calm */
+            background: radial-gradient(ellipse at 30% 20%, #2e1022 0%, #140a10 40%, #0c0a14 70%, #080608 100%);
+            color: #f5ede6;
+            font-family: 'Nunito', sans-serif;
+            overflow-x: hidden;
+        }
+
+        /* Canvas layers */
+        #bgCanvas { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+        main       { position: relative; z-index: 2; }
+
+        /* Headings */
+        #chooseHeading {
+            font-family: 'Playfair Display', serif;
+            color: #f5ede6;
+            text-shadow: 0 0 40px rgba(180,100,80,0.25);
+        }
+        #chooseSubtitle {
+            color: rgba(230,200,175,0.7);
+            font-family: 'Dancing Script', cursive;
+            font-size: 1.4rem !important;
+        }
+
+        /* ── Cards shared ── */
+        .path-card {
+            cursor: pointer;
+            border-radius: 1.5rem;
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            position: relative;
+            overflow: hidden;
+            min-height: 460px;
+        }
+
+        /* ── Birthday card — burgundy/gold glow ── */
+        #bdayCard {
+            background: linear-gradient(145deg, #5c0f1e 0%, #8B1A2F 45%, #a8650a 100%);
+            box-shadow:
+                0 0 20px 5px  rgba(180, 60, 60, 0.22),
+                0 0 55px 15px rgba(212,160, 23, 0.14),
+                0 0 110px 35px rgba(139,26,47,0.10);
+            animation: bdayPulse 3.2s ease-in-out infinite;
+        }
+        @keyframes bdayPulse {
+            0%,100% {
+                box-shadow: 0 0 20px 5px rgba(180,60,60,0.22), 0 0 55px 15px rgba(212,160,23,0.14), 0 0 110px 35px rgba(139,26,47,0.10);
+            }
+            50% {
+                box-shadow: 0 0 35px 10px rgba(200,70,70,0.38), 0 0 80px 25px rgba(212,160,23,0.26), 0 0 150px 50px rgba(139,26,47,0.18);
+            }
+        }
+
+        /* ── Friendiversary card — purple/blush glow ── */
+        #friendCard {
+            background: linear-gradient(145deg, #2e1a4a 0%, #5a3a82 45%, #c06090 100%);
+            box-shadow:
+                0 0 20px 5px  rgba(123, 94,167,0.24),
+                0 0 55px 15px rgba(232,160,191,0.15),
+                0 0 110px 35px rgba(90,58,130,0.10);
+            animation: friendPulse 3.5s ease-in-out infinite;
+        }
+        @keyframes friendPulse {
+            0%,100% {
+                box-shadow: 0 0 20px 5px rgba(123,94,167,0.24), 0 0 55px 15px rgba(232,160,191,0.15), 0 0 110px 35px rgba(90,58,130,0.10);
+            }
+            50% {
+                box-shadow: 0 0 35px 10px rgba(140,100,190,0.4), 0 0 80px 25px rgba(232,160,191,0.28), 0 0 150px 50px rgba(90,58,130,0.18);
+            }
+        }
+
+        .path-card:hover { transform: scale(1.03) translateY(-10px); }
+        #bdayCard.locked:hover  { transform: none; }
+
+        /* ── Photo slot ── */
+        .photo-slot {
+            width: 100%;
+            height: 170px;
+            border-radius: 1rem;
+            overflow: hidden;
+            margin-bottom: 1.25rem;
+            background: rgba(0,0,0,0.25);
+            border: 2px dashed rgba(255,255,255,0.25);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex-direction: column;
+            gap: 6px;
+            color: rgba(255,255,255,0.45);
+            font-size: 0.82rem;
+            cursor: pointer;
+            transition: border-color 0.25s ease, background 0.25s ease;
+            position: relative;
+        }
+        .photo-slot:hover {
+            border-color: rgba(255,255,255,0.55);
+            background: rgba(0,0,0,0.35);
+        }
+        .photo-slot img {
+            position: absolute; inset: 0;
+            width: 100%; height: 100%;
+            object-fit: cover;
+            border-radius: 1rem;
+        }
+        .photo-slot .slot-icon  { font-size: 1.8rem; }
+        .photo-slot .slot-label { font-family: 'Nunito', sans-serif; letter-spacing: 0.04em; }
+        /* Hide label when image loaded */
+        .photo-slot.has-image .slot-icon,
+        .photo-slot.has-image .slot-label { display: none; }
+        /* Hidden file inputs */
+        .photo-input { display: none; }
+
+        /* Locked state */
+        #bdayCard.locked {
+            cursor: not-allowed;
+            filter: grayscale(55%) brightness(0.65);
+            user-select: none;
+        }
+        #bdayCard.locked .enter-btn { opacity: 0.5; pointer-events: none; }
+        #bdayCountdown {
+            display: none;
+            margin-top: 0.6rem;
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: rgba(255,255,255,0.85);
+            background: rgba(0,0,0,0.35);
+            border-radius: 999px;
+            padding: 5px 16px;
+            backdrop-filter: blur(4px);
+        }
+        #lockOverlay { display: none; font-size: 2.2rem; margin-bottom: 0.4rem; }
+
+        /* Enter buttons */
+        .enter-btn {
+            border-radius: 50px;
+            border: none;
+            padding: 0.5rem 2.2rem;
+            font-weight: 700;
+            font-family: 'Nunito', sans-serif;
+            background: rgba(255,255,255,0.92);
+            color: #1a0a10;
+            cursor: pointer;
+            transition: background 0.2s ease, transform 0.2s ease;
+        }
+        .enter-btn:hover { background: #ffffff; transform: scale(1.04); }
+
+        .back-link { transition: opacity 0.2s ease; }
+        .back-link:hover { opacity: 1 !important; }
+    </style>
+</head>
+<body>
+    <canvas id="bgCanvas"></canvas>
+
+    <main class="container min-vh-100 d-flex flex-column justify-content-center align-items-center text-center p-4">
+
+        <h1 id="chooseHeading" class="display-3 fw-bold mb-2">This is entirely for you,</h1>
+        <h1 id="chooseHeading2" class="display-3 fw-bold mb-3" style="font-family:'Dancing Script',cursive; color:#e8b8a0;">and just you. 🎀</h1>
+        <p id="chooseSubtitle" class="fs-4 mb-5">Which world do you want to enter first?</p>
+
+        <div class="row w-100 justify-content-center g-4" style="max-width: 1060px; margin: 0 auto;">
+
+            <!-- Birthday Card -->
+            <div class="col-md-6">
+                <div id="bdayCard" class="path-card p-4 d-flex flex-column align-items-center justify-content-start">
+
+                    <!-- Photo slot -->
+                    <div class="photo-slot" id="bdayPhotoSlot" onclick="document.getElementById('bdayPhotoInput').click()">
+                        <span class="slot-icon">📸</span>
+                        <span class="slot-label">Add a photo here</span>
+                        <img id="bdayPhotoPreview" src="" alt="" style="display:none;">
+                    </div>
+                    <input type="file" accept="image/*" class="photo-input" id="bdayPhotoInput">
+
+                    <span id="lockOverlay">🔒</span>
+                    <span class="display-1 mb-3">🎂</span>
+                    <h2 class="display-6 fw-bold mb-2" style="font-family:'Playfair Display',serif;">JB's Birthday 🥳❤</h2>
+                    <p class="mb-4" style="opacity:0.85; font-size:1rem;">To the woman who makes my days brighter and my heart happier.
+
+Today is all about celebrating you, your smile, your kindness, your strength, and the beautiful person you are.
+
+Click below to begin your birthday surprise. 💖</p>
+                    <button class="enter-btn">Enter 🎂</button>
+                    <span id="bdayCountdown"></span>
+                </div>
+            </div>
+
+            <!-- Friendiversary Card -->
+            <div class="col-md-6">
+                <div id="friendCard" class="path-card p-4 d-flex flex-column align-items-center justify-content-start">
+
+                    <!-- Photo slot -->
+                    <div class="photo-slot" id="friendPhotoSlot" onclick="document.getElementById('friendPhotoInput').click()">
+                        <span class="slot-icon">📸</span>
+                        <span class="slot-label">Add a photo here</span>
+                        <img id="friendPhotoPreview" src="" alt="" style="display:none;">
+                    </div>
+                    <input type="file" accept="image/*" class="photo-input" id="friendPhotoInput">
+
+                    <span class="display-1 mb-3">💜</span>
+                    <h2 class="display-6 fw-bold mb-2" style="font-family:'Playfair Display',serif;">It's Our Friendiversary</h2>
+                    <p class="mb-4" style="opacity:0.85; font-size:1rem;">6 months. Our story. The chaos, the love, all of it.</p>
+                    <button class="enter-btn">Enter 💜</button>
+                </div>
+            </div>
+        </div>
+
+        <a href="index.html" class="mt-5 text-white opacity-50 text-decoration-none back-link">← Back to the beginning</a>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="js/global.js"></script>
+
+    <script>
+        /* ═══════════════════════════════════
+           FLOATING FLOWERS + HEARTS BACKGROUND
+           ═══════════════════════════════════ */
+        (function () {
+            const canvas = document.getElementById('bgCanvas');
+            const ctx    = canvas.getContext('2d');
+            const EMOJIS = ['🌸','🌺','🌹','🌷','💐','💕','💗','💖','💓','🩷','💞','🌼','🌻','💝'];
+            let W, H, pts;
+
+            function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+
+            function make(scattered) {
+                return {
+                    emoji:       EMOJIS[Math.floor(Math.random() * EMOJIS.length)],
+                    x:           Math.random() * (W || window.innerWidth),
+                    y:           scattered ? Math.random() * (H || window.innerHeight) : (H || window.innerHeight) + 30,
+                    size:        Math.random() * 20 + 10,
+                    speedY:      Math.random() * 0.45 + 0.15,
+                    speedX:      (Math.random() - 0.5) * 0.28,
+                    wobble:      Math.random() * Math.PI * 2,
+                    wobbleSpeed: Math.random() * 0.018 + 0.006,
+                    alpha:       Math.random() * 0.32 + 0.1,
+                    rot:         Math.random() * Math.PI * 2,
+                    rotSpeed:    (Math.random() - 0.5) * 0.013
+                };
+            }
+
+            function init() {
+                resize();
+                pts = Array.from({ length: 48 }, (_, i) => make(true));
+            }
+
+            function loop() {
+                ctx.clearRect(0, 0, W, H);
+                pts.forEach((p, i) => {
+                    p.wobble += p.wobbleSpeed;
+                    p.rot    += p.rotSpeed;
+                    p.x += p.speedX + Math.sin(p.wobble) * 0.5;
+                    p.y -= p.speedY;
+                    if (p.y < -35) pts[i] = make(false);
+                    ctx.save();
+                    ctx.globalAlpha = p.alpha;
+                    ctx.translate(p.x, p.y);
+                    ctx.rotate(p.rot);
+                    ctx.font = `${p.size}px serif`;
+                    ctx.textAlign = 'center';
+                    ctx.textBaseline = 'middle';
+                    ctx.fillText(p.emoji, 0, 0);
+                    ctx.restore();
+                });
+                requestAnimationFrame(loop);
+            }
+
+            window.addEventListener('resize', resize);
+            init(); loop();
+        })();
+
+        /* ═══════════════════════════════════
+           PHOTO SLOT HANDLERS
+           ═══════════════════════════════════ */
+        function wirePhotoSlot(inputId, previewId, slotId) {
+            const input   = document.getElementById(inputId);
+            const preview = document.getElementById(previewId);
+            const slot    = document.getElementById(slotId);
+            if (!input) return;
+            input.addEventListener('change', (e) => {
+                const file = e.target.files[0];
+                if (!file) return;
+                const reader = new FileReader();
+                reader.onload = (ev) => {
+                    preview.src = ev.target.result;
+                    preview.style.display = 'block';
+                    slot.classList.add('has-image');
+                };
+                reader.readAsDataURL(file);
+            });
+        }
+
+        /* ═══════════════════════════════════
+           BIRTHDAY LOCK
+           ═══════════════════════════════════ */
+        const UNLOCK_DATE = new Date('2026-06-12T00:00:00');
+
+        function safeNavigateTo(path) {
+            if (typeof navigateTo === 'function') navigateTo(path);
+            else window.location.href = path;
+        }
+        function isBirthdayUnlocked() { return new Date() >= UNLOCK_DATE; }
+
+        function getCountdownText() {
+            const diff    = UNLOCK_DATE - new Date();
+            if (diff <= 0) return null;
+            const days    = Math.floor(diff / 86400000);
+            const hours   = Math.floor((diff % 86400000) / 3600000);
+            const minutes = Math.floor((diff % 3600000)  / 60000);
+            const seconds = Math.floor((diff % 60000)    / 1000);
+            if (days  > 0) return `Unlocks in ${days}d ${hours}h ${minutes}m ${seconds}s`;
+            if (hours > 0) return `Unlocks in ${hours}h ${minutes}m ${seconds}s`;
+            return `Unlocks in ${minutes}m ${seconds}s`;
+        }
+
+        function applyLock(card) {
+            card.classList.add('locked');
+            document.getElementById('lockOverlay').style.display   = 'block';
+            document.getElementById('bdayCountdown').style.display = 'inline-block';
+        }
+
+        function startCountdownTick() {
+            const el   = document.getElementById('bdayCountdown');
+            const card = document.getElementById('bdayCard');
+            const tick = () => {
+                if (isBirthdayUnlocked()) {
+                    card.classList.remove('locked');
+                    document.getElementById('lockOverlay').style.display   = 'none';
+                    el.style.display = 'none';
+                    attachBdayClick(card);
+                    Swal.fire({
+                        icon: 'success', title: "🎂 It's time!",
+                        html: "The birthday world just unlocked.<br>Happy Birthday Joy! 🎉",
+                        confirmButtonText: 'Open it! 🎂', confirmButtonColor: '#D4A017',
+                        allowOutsideClick: false
+                    }).then(() => openBirthdayPath());
+                    return;
+                }
+                el.textContent = getCountdownText();
+                setTimeout(tick, 1000);
+            };
+            tick();
+        }
+
+        function attachBdayLocked(card) {
+            card.addEventListener('click', (e) => {
+                e.preventDefault();
+                const days = Math.floor((UNLOCK_DATE - new Date()) / 86400000);
+                const msg  = days > 1
+                    ? `Come back in ${days} days — this one's worth the wait. 🎂`
+                    : days === 1 ? `Almost! Just one more day. 🕐`
+                    : `So close! Check back in a few hours. ⏳`;
+                Swal.fire({
+                    icon: 'info', title: '🔒 Not yet, Joy!',
+                    html: `This world opens on <strong>June 12th, 2026</strong>.<br><br>${msg}`,
+                    confirmButtonText: "Okay, I'll wait 🥺", confirmButtonColor: '#8B1A2F'
+                });
+            });
+        }
+
+        function openBirthdayPath() {
+            try {
+                localStorage.setItem('joyPath', 'birthday');
+                if (typeof MusicSystem !== 'undefined') {
+                    MusicSystem.init('music/birthday/bday-intro.mp3', 'music/birthday/bday-outro.mp3');
+                    MusicSystem.play();
+                }
+                safeNavigateTo('bday-hero.html');
+            } catch { window.location.href = 'bday-hero.html'; }
+        }
+
+        function attachBdayClick(card) {
+            const fresh = card.cloneNode(true);
+            card.parentNode.replaceChild(fresh, card);
+            wirePhotoSlot('bdayPhotoInput', 'bdayPhotoPreview', 'bdayPhotoSlot');
+            fresh.addEventListener('click', (e) => {
+                if (e.target.closest('.photo-slot')) return;
+                e.preventDefault();
+                openBirthdayPath();
+            });
+        }
+
+        /* ═══════════════════════════════════
+           PAGE LOAD
+           ═══════════════════════════════════ */
+        window.addEventListener('load', () => {
+            document.body.style.opacity    = '1';
+            document.body.style.visibility = 'visible';
+
+            const bdayCard   = document.getElementById('bdayCard');
+            const friendCard = document.getElementById('friendCard');
+
+            [bdayCard, friendCard].forEach(c => {
+                if (!c) return;
+                c.style.opacity = '1'; c.style.visibility = 'visible'; c.style.display = 'flex';
+            });
+
+            /* Card entrance animation */
+            if (typeof gsap !== 'undefined') {
+                gsap.from('#chooseHeading',  { opacity: 0, y: 25, duration: 0.9, delay: 0.2 });
+                gsap.from('#chooseHeading2', { opacity: 0, y: 25, duration: 0.9, delay: 0.45 });
+                gsap.from('#chooseSubtitle', { opacity: 0, y: 20, duration: 0.9, delay: 0.65 });
+                gsap.from('#bdayCard',       { opacity: 0, x: -30, duration: 0.9, delay: 0.8 });
+                gsap.from('#friendCard',     { opacity: 0, x:  30, duration: 0.9, delay: 0.95 });
+            }
+
+            /* Wire photo slots */
+            wirePhotoSlot('bdayPhotoInput',   'bdayPhotoPreview',   'bdayPhotoSlot');
+            wirePhotoSlot('friendPhotoInput',  'friendPhotoPreview', 'friendPhotoSlot');
+
+            /* Birthday lock */
+            if (bdayCard) {
+                if (isBirthdayUnlocked()) {
+                    attachBdayClick(bdayCard);
+                } else {
+                    applyLock(bdayCard);
+                    attachBdayLocked(bdayCard);
+                    startCountdownTick();
+                }
+            }
+
+            /* Friendiversary */
+            if (friendCard) {
+                friendCard.addEventListener('click', (e) => {
+                    if (e.target.closest('.photo-slot')) return;
+                    e.preventDefault();
+                    try {
+                        localStorage.setItem('joyPath', 'friendship');
+                        if (typeof MusicSystem !== 'undefined') {
+                            MusicSystem.init('music/friendship/friend-intro.mp3', 'music/friendship/friend-outro.mp3');
+                            MusicSystem.play();
+                        }
+                        safeNavigateTo('friend-hero.html');
+                    } catch { window.location.href = 'friend-hero.html'; }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
+<!-- HTMLEOF -->
+<!-- echo "done" -->

@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Memory Wall 🧡</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/bday.css">
+    <style>
+        .memory-card { cursor: pointer; background: rgba(255,255,255,0.05); border-radius: 15px; overflow: hidden; transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1); }
+        .memory-card:hover { transform: translateY(-10px) scale(1.02); background: rgba(255,255,255,0.1); }
+        .memory-card img { width: 100%; height: 200px; object-fit: cover; }
+        .secret-card { cursor: pointer; background: linear-gradient(135deg, #8B1A2F, #D4A017); padding: 30px; border-radius: 20px; text-align: center; font-size: 1.5rem; transition: all 0.3s ease; }
+        .secret-card:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(212, 160, 23, 0.4); }
+    </style>
+</head>
+<body>
+    <main class="container py-20 text-center">
+        <h1 class="display-3 mb-10" data-aos="fade-up">Things I'll never forget. 🧡</h1>
+        
+        <div class="row g-4 mb-20">
+            <div class="col-md-4" data-aos="fade-up" onclick="openMemory('m1')">
+                <div class="memory-card">
+                    <img src="images/joy/joy-2.jpg" alt="">
+                    <p class="p-3 fs-5 mb-0">That one evening... 🌙</p>
+                </div>
+            </div>
+            <!-- More memory cards -->
+            <div class="col-md-4" data-aos="fade-up" data-aos-delay="100" onclick="openSecret(1)">
+                <div class="secret-card h-100 d-flex align-items-center justify-content-center">
+                    🔒 Open Secret #1
+                </div>
+            </div>
+        </div>
+
+        <button onclick="navigateTo('bday-wishes.html')" class="btn-glow px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up">
+            A letter awaits →
+        </button>
+    </main>
+
+    <button id="musicToggleBtn" onclick="MusicSystem.toggle()"
+      style="position:fixed; bottom:20px; right:20px; z-index:9999;
+             background:rgba(255,255,255,0.1); border:none; border-radius:50%;
+             width:48px; height:48px; font-size:20px; cursor:pointer;
+             backdrop-filter:blur(10px);">🎵</button>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/bday.js"></script>
+</body>
+</html>

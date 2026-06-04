@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Future Goals 🗺️</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <link rel="stylesheet" href="css/friend.css">
+    <style>
+        .goal-item { transition: all 0.3s ease; border: 1px solid rgba(255,255,255,0.1); }
+        .goal-item.checked { border-color: var(--color-gold-muted); opacity: 0.7; }
+        .goal-item.checked .goal-text { text-decoration: line-through; }
+        .goal-check { min-width: 30px; }
+    </style>
+</head>
+<body>
+    <main class="container py-20 text-center">
+        <h1 class="display-3 mb-2" data-aos="fade-up">Things we're doing in the next 6 months. 🗺️</h1>
+        <p class="fs-4 mb-10" data-aos="fade-up">(And beyond.)</p>
+        
+        <div id="goalList" class="max-w-2xl mx-auto text-start mb-10">
+            <!-- Goals will be loaded here from Supabase -->
+            <div class="text-center py-10" id="goalLoader">
+                <div class="spinner-border text-light" role="status"></div>
+                <p class="mt-2">Connecting to our future...</p>
+            </div>
+        </div>
+
+        <div class="max-w-2xl mx-auto d-flex gap-2 mb-20 flex-wrap" data-aos="fade-up">
+            <input id="goalInput" type="text" class="form-control bg-transparent text-white border-secondary p-3 flex-grow-1" style="min-width: 200px;" placeholder="Add a goal of your own...">
+            <button onclick="handleNewGoal()" class="btn-nude px-4 rounded-lg flex-grow-1">Add ❤️</button>
+        </div>
+
+        <button onclick="navigateTo('friend-letter.html')" class="btn-nude mt-10 px-10 py-4 fs-3 rounded-full">
+            One final letter →
+        </button>
+    </main>
+
+    <button id="musicToggleBtn" onclick="MusicSystem.toggle()"
+      style="position:fixed; bottom:20px; right:20px; z-index:9999;
+             background:rgba(255,255,255,0.1); border:none; border-radius:50%;
+             width:48px; height:48px; font-size:20px; cursor:pointer;
+             backdrop-filter:blur(10px);">🎵</button>
+
+    <!-- Supabase CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="js/global.js"></script>
+    <script src="js/friend.js"></script>
+    <script>
+        async function loadGoals() {
+            const goals = await fetchFutureGoals();
+            const goalList = document.getElementById('goalList');
+            const loader = document.getElementById('goalLoader');
+            
+            if (loader) loader.remove();
+            
+            if (goals.length === 0) {
+                goalList.innerHTML = '<p class="text-center opacity-50">No goals yet. Let\'s add some! ✨</p>';
+                return;
+            }
+
+            goalList.innerHTML = '';
+            goals.forEach(goal => renderGoal(goal));
+        }
+
+        function renderGoal(goal) {
+            const goalList = document.getElementById('goalList');
+            const div = document.createElement('div');
+            div.className = `goal-item p-3 mb-2 glass-card cursor-pointer d-flex align-items-center ${goal.is_checked ? 'checked' : ''}`;
+            div.dataset.id = goal.id;
+            div.onclick = () => handleToggleGoal(div, goal.id);
+            div.innerHTML = `
+                <span class="goal-check me-3 fs-4">${goal.is_checked ? '☑' : '☐'}</span>
+                <span class="goal-text fs-5">${goal.text}</span>
+            `;
+            goalList.appendChild(div);
+        }
+
+        async function handleNewGoal() {
+            const input = document.getElementById('goalInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            const newGoal = await saveNewGoal(text);
+            if (newGoal) {
+                const goalList = document.getElementById('goalList');
+                if (goalList.querySelector('.opacity-50')) goalList.innerHTML = '';
+                renderGoal(newGoal);
+                input.value = '';
+                confetti({ particleCount: 30, spread: 60, colors: ['#c4a484', '#a68966'] });
+            }
+        }
+
+        async function handleToggleGoal(el, id) {
+            const isChecked = !el.classList.contains('checked');
+            el.classList.toggle('checked');
+            el.querySelector('.goal-check').textContent = isChecked ? '☑' : '☐';
+            
+            if (isChecked) {
+                confetti({ particleCount: 20, spread: 50, origin: { y: 0.8 }, colors: ['#c4a484', '#a68966'] });
+            }
+
+            await toggleGoalCheck(id, isChecked);
+        }
+
+        window.addEventListener('load', loadGoals);
+    </script>
+</body>
+</html>

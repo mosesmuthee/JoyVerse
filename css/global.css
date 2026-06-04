@@ -1,0 +1,213 @@
+:root {
+  /* NUDE & BOLD PALETTE */
+  --color-space-bg     : #05070a;   /* Deepest Navy/Black */
+  --color-nude-light   : #e8d5c4;   /* Soft Sand */
+  --color-nude-dark    : #c4a484;   /* Muted Tan */
+  --color-bold-accent  : #4a0404;   /* Rich Burgundy */
+  --color-bold-secondary: #1a2a3a;  /* Muted Navy */
+  --color-gold-muted   : #a68966;   /* Aged Gold */
+  
+  --font-handwriting   : 'Caveat', cursive;
+  --transition-smooth  : all 0.6s cubic-bezier(0.22, 1, 0.36, 1);
+  --border-radius-card : 15px;
+  --shadow-bold        : 0 10px 40px rgba(0,0,0,0.6);
+}
+
+body {
+  background-color: var(--color-space-bg);
+  color: var(--color-nude-light);
+  font-family: 'Raleway', sans-serif;
+  margin: 0;
+  overflow-x: hidden;
+}
+
+.glass-card {
+  background: rgba(26, 42, 58, 0.3);
+  backdrop-filter: blur(15px);
+  -webkit-backdrop-filter: blur(15px);
+  border: 1px solid rgba(166, 137, 102, 0.2);
+  border-radius: var(--border-radius-card);
+  box-shadow: var(--shadow-bold);
+}
+
+.btn-nude {
+  background-color: var(--color-nude-dark);
+  color: var(--color-space-bg);
+  font-weight: bold;
+  border: none;
+  transition: var(--transition-smooth);
+}
+
+.btn-nude:hover {
+  background-color: var(--color-nude-light);
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 0 20px rgba(196, 164, 132, 0.4);
+}
+
+/* Planet Styling */
+.planet {
+    border-radius: 50%;
+    position: absolute;
+    filter: blur(1px);
+    pointer-events: none;
+}
+
+.planet-sand {
+    background: radial-gradient(circle at 30% 30%, #e8d5c4, #c4a484 70%, #8b7355);
+    box-shadow: inset -10px -10px 50px rgba(0,0,0,0.5), 0 0 30px rgba(232, 213, 196, 0.2);
+}
+
+.planet-burgundy {
+    background: radial-gradient(circle at 30% 30%, #6e0606, #4a0404 70%, #2a0202);
+    box-shadow: inset -10px -10px 50px rgba(0,0,0,0.5), 0 0 30px rgba(74, 4, 4, 0.2);
+}
+
+/* Flower Particle System */
+.flower-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: -1;
+    overflow: hidden;
+}
+
+.flower {
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: 0.6;
+    filter: drop-shadow(0 0 5px rgba(0,0,0,0.3));
+}
+
+@keyframes fall {
+    0% {
+        transform: translateY(-100px) rotate(0deg);
+        opacity: 0;
+    }
+    10% {
+        opacity: 0.6;
+    }
+    90% {
+        opacity: 0.6;
+    }
+    100% {
+        transform: translateY(110vh) rotate(720deg);
+        opacity: 0;
+    }
+}
+
+/* Custom Rose & Tulip Types */
+.flower-red-rose {
+    background: radial-gradient(circle, #8b0000, #4a0404);
+    clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%);
+}
+
+.flower-white-rose {
+    background: radial-gradient(circle, #ffffff, #e8d5c4);
+    clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%);
+}
+
+.flower-purple-rose {
+    background: radial-gradient(circle, #6a0dad, #3b0a66);
+    clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%);
+}
+
+.flower-black-gold {
+    background: linear-gradient(135deg, #000 0%, #000 70%, #a68966 100%);
+    border: 1px solid #a68966;
+    clip-path: polygon(50% 0%, 80% 10%, 100% 35%, 100% 70%, 80% 90%, 50% 100%, 20% 90%, 0% 70%, 0% 35%, 20% 10%);
+}
+
+.flower-tulip {
+    background: radial-gradient(circle at bottom, #e8a0bf, #7b5ea7);
+    clip-path: polygon(20% 100%, 80% 100%, 100% 40%, 80% 0%, 50% 30%, 20% 0%, 0% 40%);
+}
+
+/* ── Mobile Compatibility & Fluid Scaling ── */
+:root {
+  /* Fluid font sizes */
+  --fs-display-1: clamp(2.5rem, 10vw, 5rem);
+  --fs-display-2: clamp(2.2rem, 8.5vw, 4.5rem);
+  --fs-display-3: clamp(1.8rem, 7vw, 4rem);
+  --fs-display-4: clamp(1.6rem, 6vw, 3.5rem);
+  --fs-h1: clamp(1.5rem, 5vw, 2.5rem);
+  --fs-h2: clamp(1.3rem, 4.5vw, 2rem);
+  --fs-body: clamp(0.9rem, 3.5vw, 1.1rem);
+}
+
+@media (max-width: 768px) {
+  .display-1 { font-size: var(--fs-display-1) !important; }
+  .display-2 { font-size: var(--fs-display-2) !important; }
+  .display-3 { font-size: var(--fs-display-3) !important; }
+  .display-4 { font-size: var(--fs-display-4) !important; }
+  .display-5 { font-size: clamp(1.4rem, 5vw, 2.5rem) !important; }
+  .display-6 { font-size: clamp(1.2rem, 4.5vw, 2rem) !important; }
+
+  .fs-1 { font-size: 1.5rem !important; }
+  .fs-2 { font-size: 1.3rem !important; }
+  .fs-3 { font-size: 1.1rem !important; }
+  .fs-4 { font-size: 1rem !important; }
+  .fs-5 { font-size: 0.9rem !important; }
+  .fs-6 { font-size: 0.8rem !important; }
+
+  /* Reset paddings for mobile */
+  .p-5 { padding: 1.5rem !important; }
+  .p-4 { padding: 1.25rem !important; }
+  .p-3 { padding: 1rem !important; }
+  .m-5 { margin: 1.5rem !important; }
+  .m-4 { margin: 1.25rem !important; }
+  .py-20 { padding-top: 3rem !important; padding-bottom: 3rem !important; }
+  .mb-20 { margin-bottom: 2.5rem !important; }
+  .mb-10 { margin-bottom: 1.5rem !important; }
+  .mt-20 { margin-top: 2.5rem !important; }
+  .px-10 { padding-left: 2rem !important; padding-right: 2rem !important; }
+
+  /* Scale down buttons slightly */
+  .btn-nude, .btn-glow {
+    padding-left: 1.5rem !important;
+    padding-right: 1.5rem !important;
+    padding-top: 0.75rem !important;
+    padding-bottom: 0.75rem !important;
+    font-size: 1.1rem !important;
+  }
+  
+  /* Glass card adjustments */
+  .glass-card {
+    padding: 1.5rem !important;
+  }
+
+  /* Ensure containers fit correctly */
+  .container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+}
+
+/* Global scroll fix */
+html, body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+body {
+  overflow-y: auto !important; /* Force allow vertical scroll */
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Prevent images from breaking layout */
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Swiper scaling for mobile */
+@media (max-width: 480px) {
+  .swiper { height: 450px !important; }
+  .swiper-slide { width: 240px !important; height: 360px !important; }
+}
+

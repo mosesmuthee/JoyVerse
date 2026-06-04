@@ -1,0 +1,19 @@
+:root {
+  --color-primary      : #7B5EA7;   /* soft purple */
+  --color-secondary    : #E8A0BF;   /* dusty rose */
+  --color-accent       : #B5D5C5;   /* sage green */
+  --color-bg           : #1c1520;   /* deep purple-black */
+  --color-text         : #FDF6EC;   /* warm cream */
+  --font-display       : 'Dancing Script', cursive;
+  --font-body          : 'Raleway', sans-serif;
+}
+
+body {
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+}
+
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-display);
+}
