@@ -3,54 +3,124 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>The Girl of the Hour ✨</title>
+    <title>The Girl of the Hour 👑</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/bday.css">
     <style>
-        .swiper { width: 100%; height: 600px; padding-top: 50px; padding-bottom: 50px; }
-        .swiper-slide { background-position: center; background-size: cover; width: 300px; height: 450px; border-radius: 20px; }
-        @keyframes floatPhoto {
-            0%   { transform: translateY(0px) rotate(-2deg); }
-            50%  { transform: translateY(-18px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(-2deg); }
+        body { background: #0a0608; color: #f5ede6; overflow-x: hidden; }
+        .revealer-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 25px; padding: 40px 0; }
+        .revealer-box {
+            height: 280px; background: rgba(255,255,255,0.05); border: 2px dashed rgba(212, 160, 23, 0.4);
+            border-radius: 20px; cursor: pointer; position: relative; overflow: hidden;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.5s ease;
         }
-        .floating-photo { animation: floatPhoto 5s ease-in-out infinite; border-radius: 12px; border: 2px solid var(--color-secondary); }
+        .revealer-box img { 
+            position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; 
+            opacity: 0; transform: scale(1.2); transition: all 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .revealer-box.revealed img { opacity: 1; transform: scale(1); }
+        .revealer-box.revealed .box-btn { opacity: 0; transform: translateY(20px); pointer-events: none; }
+        
+        .box-btn {
+            background: #d4a017; color: #000; border: none; padding: 10px 20px;
+            border-radius: 50px; font-weight: bold; z-index: 10;
+            transition: all 0.3s ease;
+        }
+
+        .fav-item { 
+            background: rgba(255,255,255,0.05); padding: 30px; border-radius: 20px; 
+            border: 1px solid rgba(212, 160, 23, 0.2); transition: transform 0.3s;
+            text-align: center;
+        }
+        .fav-item:hover { transform: translateY(-10px); background: rgba(212, 160, 23, 0.1); }
     </style>
 </head>
 <body>
-    <main class="container py-20 text-center">
-        <h1 class="display-3 mb-10" data-aos="fade-up">The girl of the hour. ✨</h1>
+    <main class="container py-20">
+        <h1 class="display-3 text-center mb-2 fw-bold" data-aos="fade-down" style="font-family: 'Playfair Display', serif;">The Girl of the Hour 👑</h1>
+        <p class="fs-4 text-center mb-10 opacity-75" data-aos="fade-up">Tap each box to reveal a beautiful memory.</p>
         
-        <div class="swiper swiper-birthday mb-20" data-aos="zoom-in">
-            <div class="swiper-wrapper">
-                <div class="swiper-slide" style="background-image:url('images/joy/joy-1.jpg')"></div>
-                <div class="swiper-slide" style="background-image:url('images/joy/joy-2.jpg')"></div>
-                <div class="swiper-slide" style="background-image:url('images/joy/joy-3.jpg')"></div>
-                <div class="swiper-slide" style="background-image:url('images/joy/joy-4.jpg')"></div>
-                <div class="swiper-slide" style="background-image:url('images/joy/joy-5.jpg')"></div>
+        <div class="revealer-grid">
+            <!-- 10 Reveal Boxes -->
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="100">
+                <img src="images/joy/joy-1.jpg">
+                <button class="box-btn">Open Memory ✨</button>
             </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="200">
+                <img src="images/joy/joy-2.jpg">
+                <button class="box-btn">Reveal Joy ✨</button>
+            </div>
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="300">
+                <img src="images/joy/joy-3.jpg">
+                <button class="box-btn">Open Heart ✨</button>
+            </div>
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="400">
+                <img src="images/joy/joy-4.jpg">
+                <button class="box-btn">See Radiance ✨</button>
+            </div>
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="500">
+                <img src="images/joy/joy-5.jpg">
+                <button class="box-btn">The Smile ✨</button>
+            </div>
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="100">
+                <img src="images/joy/joy-6.jpg">
+                <button class="box-btn">Pure Magic ✨</button>
+            </div>
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="200">
+                <img src="images/joy/joy-7.jpg">
+                <button class="box-btn">Your Light ✨</button>
+            </div>
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="300">
+                <img src="images/joy/joy-8.jpg">
+                <button class="box-btn">Graceful ✨</button>
+            </div>
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="400">
+                <img src="images/joy/joy-9.jpg">
+                <button class="box-btn">The Queen ✨</button>
+            </div>
+            <div class="revealer-box" onclick="this.classList.add('revealed')" data-aos="zoom-in" data-aos-delay="500">
+                <img src="images/joy/joy-10.jpg">
+                <button class="box-btn">Forever Joy ✨</button>
+            </div>
         </div>
 
-        <h2 class="display-4 mb-5" data-aos="fade-up">Some favorites. 🌟</h2>
-        <div class="row g-4 justify-content-center mb-20">
-            <div class="col-md-3" data-aos="fade-up" data-aos-delay="100"><img src="images/joy/joy-1.jpg" class="floating-photo w-full shadow-2xl"></div>
-            <div class="col-md-3" data-aos="fade-up" data-aos-delay="200"><img src="images/joy/joy-2.jpg" class="floating-photo w-full shadow-2xl" style="animation-delay: 1s;"></div>
-            <div class="col-md-3" data-aos="fade-up" data-aos-delay="300"><img src="images/joy/joy-3.jpg" class="floating-photo w-full shadow-2xl" style="animation-delay: 2s;"></div>
+        <h2 class="display-5 text-center mt-20 mb-5 fw-bold" data-aos="fade-up">Some of My Favorites 💛</h2>
+        <div class="row g-4 justify-content-center">
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="100">
+                <div class="fav-item">
+                    <span class="display-4 d-block mb-2">🙃</span>
+                    <h3>Your Love</h3>
+                    <p>The way you care and the warmth you give is my absolute favorite thing.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="200">
+                <div class="fav-item">
+                    <span class="display-4 d-block mb-2">✨</span>
+                    <h3>Your Radiance</h3>
+                    <p>You light up every room you walk into, effortlessly.</p>
+                </div>
+            </div>
+            <div class="col-md-4" data-aos="zoom-in" data-aos-delay="300">
+                <div class="fav-item">
+                    <span class="display-4 d-block mb-2">🌸</span>
+                    <h3>Your Grace</h3>
+                    <p>The gentle way you handle life is truly inspiring.</p>
+                </div>
+            </div>
         </div>
 
-        <button onclick="navigateTo('bday-messages.html')" class="btn-glow px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up">
-            Read something beautiful →
-        </button>
+        <div class="text-center mt-20">
+            <button onclick="navigateTo('bday-23-things.html')" class="btn-glow px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up">
+                Something about you →
+            </button>
+        </div>
     </main>
 
     <button id="musicToggleBtn" onclick="MusicSystem.toggle()"
@@ -61,23 +131,7 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="js/global.js"></script>
-    <script>
-        window.addEventListener('load', () => {
-            new Swiper('.swiper-birthday', {
-                loop: true,
-                autoplay: { delay: 3500, disableOnInteraction: false },
-                effect: 'coverflow',
-                grabCursor: true,
-                centeredSlides: true,
-                slidesPerView: 'auto',
-                coverflowEffect: { rotate: 40, stretch: 0, depth: 120, modifier: 1, slideShadows: true },
-                pagination: { el: '.swiper-pagination', clickable: true },
-                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
-            });
-        });
-    </script>
+    <script>window.addEventListener('load', () => { AOS.init({ duration: 1000, once: true }); });</script>
 </body>
 </html>

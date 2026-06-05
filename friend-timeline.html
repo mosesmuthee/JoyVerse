@@ -9,37 +9,125 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/friend.css">
     <style>
-        .timeline { position: relative; }
-        .timeline::before { content:''; position:absolute; left:50%; top:0; bottom:0; width:2px; background: var(--color-secondary); }
-        .timeline-entry { position: relative; width: 100%; margin-bottom: 50px; }
-        .timeline-content { width: 45%; padding: 30px; border-radius: 20px; cursor: pointer; transition: all 0.3s; }
-        .timeline-content:hover { background: rgba(255,255,255,0.1); transform: scale(1.05); }
-        .timeline-entry:nth-child(odd) .timeline-content { margin-left: auto; }
-        .timeline-dot { position: absolute; left: 50%; top: 20px; transform: translateX(-50%); width: 20px; height: 20px; background: var(--color-secondary); border-radius: 50%; box-shadow: 0 0 15px var(--color-secondary); }
-        @media (max-width: 768px) {
-            .timeline::before { left: 20px; }
-            .timeline-content { width: calc(100% - 60px); margin-left: 60px !important; text-align: left !important; }
-            .timeline-dot { left: 20px; }
+        body {
+            background: linear-gradient(to bottom, #0d0810, #1a0d14);
+            color: #f0e0d0;
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .tree-scene {
+            position: relative;
+            width: 100%;
+            height: 1200px;
+            margin-top: 100px;
+        }
+
+        /* Large Visual Tree Trunk */
+        .main-trunk {
+            position: absolute;
+            left: 50%;
+            bottom: 0;
+            width: 40px;
+            height: 1000px;
+            background: linear-gradient(to top, #4a2c1a, #2d1b10);
+            transform: translateX(-50%);
+            border-radius: 40px 40px 0 0;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            z-index: 1;
+        }
+
+        .leaf-node {
+            position: absolute;
+            width: 280px;
+            padding: 25px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(123, 94, 167, 0.3);
+            border-radius: 50% 50% 50% 50% / 12% 88% 12% 88%;
+            cursor: pointer;
+            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            text-align: center;
+            z-index: 3;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        .leaf-node:hover {
+            transform: scale(1.15) rotate(3deg);
+            background: rgba(123, 94, 167, 0.2);
+            border-color: #7b5ea7;
+        }
+
+        /* Positioning Months along the tree */
+        .month-1 { left: calc(50% + 40px); bottom: 150px; }
+        .month-2 { right: calc(50% + 40px); bottom: 300px; }
+        .month-3 { left: calc(50% + 60px); bottom: 450px; }
+        .month-4 { right: calc(50% + 60px); bottom: 600px; }
+        .month-5 { left: calc(50% + 40px); bottom: 750px; }
+        .month-6 { right: calc(50% + 40px); bottom: 900px; }
+
+        .leaf-icon { font-size: 2.5rem; margin-bottom: 10px; display: block; }
+        .leaf-date { font-family: 'Dancing Script', cursive; font-size: 1.2rem; color: #e8a0bf; }
+        .leaf-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: bold; }
+
+        @media (max-width: 992px) {
+            .main-trunk { left: 40px; transform: none; }
+            .leaf-node { left: 80px !important; right: auto !important; width: calc(100% - 100px); transform: none !important; }
         }
     </style>
 </head>
 <body>
     <main class="container py-20 text-center">
-        <h1 class="display-3 mb-10" data-aos="fade-up">Our Story, Month by Month. 📖</h1>
+        <h1 class="display-3 mb-2 fw-bold" data-aos="fade-down" style="font-family: 'Playfair Display', serif;">The Friendship Tree 🌳</h1>
+        <p class="fs-4 mb-10 opacity-75" data-aos="fade-up">Our story, month by month.</p>
         
-        <div class="timeline">
-            <div class="timeline-entry" data-aos="fade-up">
-                <div class="timeline-dot"></div>
-                <div class="timeline-content glass-card text-end" onclick="openTimelineEntry('month1')">
-                    <h3>Month 1</h3>
-                    <p class="fs-4">[MOSES FILLS — e.g. The Beginning 🌱]</p>
-                </div>
+        <div class="tree-scene">
+            <div class="main-trunk"></div>
+
+            <div class="leaf-node month-1" data-aos="fade-right" onclick="openTimelineEntry('month1')">
+                <span class="leaf-icon">🌱</span>
+                <span class="leaf-date">Dec 7, 2025</span>
+                <h3 class="leaf-title">The Meeting</h3>
+                <p class="opacity-75">Where it all began...</p>
             </div>
-            <!-- More timeline entries -->
+
+            <div class="leaf-node month-2" data-aos="fade-left" onclick="openTimelineEntry('month2')">
+                <span class="leaf-icon">✨</span>
+                <span class="leaf-date">January 2026</span>
+                <h3 class="leaf-title">Finding Our Rhythm</h3>
+                <p class="opacity-75">Starting the year together.</p>
+            </div>
+
+            <div class="leaf-node month-3" data-aos="fade-right" onclick="openTimelineEntry('month3')">
+                <span class="leaf-icon">💜</span>
+                <span class="leaf-date">February 2026</span>
+                <h3 class="leaf-title">Growing Close</h3>
+                <p class="opacity-75">Warmth & Trust.</p>
+            </div>
+
+            <div class="leaf-node month-4" data-aos="fade-left" onclick="openTimelineEntry('month4')">
+                <span class="leaf-icon">🌸</span>
+                <span class="leaf-date">March 2026</span>
+                <h3 class="leaf-title">Blossoming</h3>
+                <p class="opacity-75">Beautiful friendship.</p>
+            </div>
+
+            <div class="leaf-node month-5" data-aos="fade-right" onclick="openTimelineEntry('month5')">
+                <span class="leaf-icon">💎</span>
+                <span class="leaf-date">April 2026</span>
+                <h3 class="leaf-title">Solid Foundation</h3>
+                <p class="opacity-75">Unbreakable connection.</p>
+            </div>
+
+            <div class="leaf-node month-6" data-aos="fade-left" onclick="openTimelineEntry('month6')">
+                <span class="leaf-icon">🥂</span>
+                <span class="leaf-date">May 2026</span>
+                <h3 class="leaf-title">6 Months</h3>
+                <p class="opacity-75">Celebrating us!</p>
+            </div>
         </div>
 
         <button onclick="navigateTo('friend-gallery.html')" class="btn-glow mt-20 px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up">
@@ -58,5 +146,6 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="js/global.js"></script>
     <script src="js/friend.js"></script>
+    <script>window.addEventListener('load', () => { AOS.init({ duration: 1000, once: true }); });</script>
 </body>
 </html>

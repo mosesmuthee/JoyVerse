@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Falling for You 🌧️</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Nunito:wght@400;600&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <style>
+        body { background: #0a0608; color: #f5ede6; overflow: hidden; height: 100vh; }
+        
+        /* Floating Watermark */
+        .joy-watermark {
+            position: fixed; top: 50%; left: 50%; transform: translate(-50%, -50%);
+            font-size: 20rem; font-family: 'Playfair Display', serif;
+            color: rgba(212, 160, 23, 0.08); z-index: 0; pointer-events: none;
+            white-space: nowrap; text-shadow: 0 0 50px rgba(212, 160, 23, 0.2);
+            animation: pulseJoy 4s ease-in-out infinite;
+        }
+
+        .birthday-watermark {
+            position: fixed; bottom: 10%; width: 100%; text-align: center;
+            font-size: 3.5rem; font-family: 'Dancing Script', cursive;
+            color: rgba(255, 255, 255, 0.5); z-index: 5; pointer-events: none;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px #d4a017;
+        }
+
+        @keyframes pulseJoy {
+            0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.1; }
+            50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.2; }
+        }
+
+        .birthday-watermark {
+            position: fixed; bottom: 10%; width: 100%; text-align: center;
+            font-size: 3.5rem; font-family: 'Dancing Script', cursive;
+            color: rgba(255, 255, 255, 0.5); z-index: 5; pointer-events: none;
+            text-shadow: 0 0 20px rgba(255, 255, 255, 0.8), 0 0 40px #d4a017;
+        }
+
+        .falling-photo {
+            position: absolute;
+            width: 150px;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 15px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 2px solid rgba(212, 160, 23, 0.3);
+            pointer-events: none;
+            z-index: 10;
+        }
+        
+        .content-overlay {
+            position: fixed; inset: 0;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            z-index: 20; text-align: center;
+            pointer-events: none;
+        }
+        
+        .btn-nude { pointer-events: auto; }
+    </style>
+</head>
+<body>
+    <div class="joy-watermark">Joy ❤</div>
+    <div class="birthday-watermark">Happy Birthday My Love ❤</div>
+    <div id="rainContainer" class="w-full h-full relative"></div>
+
+    <div class="content-overlay">
+        <h1 class="display-1 fw-bold mb-4" style="font-family:'Dancing Script'; color:#d4a017; text-shadow: 0 0 20px rgba(212,160,23,0.5);">I Love You So Much. 💛</h1>
+        <p class="fs-2 mb-10">There is no one quite like you in this entire universe.</p>
+        <button onclick="navigateTo('index.html')" class="btn-nude px-12 py-3 fs-4 rounded-full">
+            Back to the Stars 🚀
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="js/global.js"></script>
+    <script>
+        const photos = [
+            'images/joy/joy-1.jpg', 'images/joy/joy-2.jpg', 'images/joy/joy-3.jpg',
+            'images/joy/joy-4.jpg', 'images/joy/joy-5.jpg', 'images/joy/joy-6.jpg',
+            'images/joy/joy-7.jpg', 'images/joy/joy-8.jpg', 'images/joy/joy-9.jpg',
+            'images/joy/joy-10.jpg'
+        ];
+
+        function createPhoto() {
+            const container = document.getElementById('rainContainer');
+            const img = document.createElement('img');
+            img.src = photos[Math.floor(Math.random() * photos.length)];
+            img.className = 'falling-photo';
+            
+            const startX = Math.random() * window.innerWidth;
+            const duration = 6 + Math.random() * 6;
+            const rotation = (Math.random() - 0.5) * 60;
+            
+            gsap.set(img, { x: startX, y: -250, rotation: rotation, opacity: 0 });
+            container.appendChild(img);
+            
+            gsap.to(img, {
+                y: window.innerHeight + 250,
+                x: startX + (Math.random() - 0.5) * 200,
+                rotation: rotation + (Math.random() - 0.5) * 100,
+                opacity: 1,
+                duration: duration,
+                ease: "none",
+                onComplete: () => img.remove()
+            });
+            
+            gsap.to(img, {
+                opacity: 0,
+                duration: 1.5,
+                delay: duration - 1.5
+            });
+        }
+
+        window.addEventListener('load', () => {
+            setInterval(createPhoto, 800);
+            if(MusicSystem.bgAudio) MusicSystem.play();
+        });
+    </script>
+</body>
+</html>

@@ -30,10 +30,25 @@
         <p id="friendSubtitle" class="fs-2 mb-5">Half a year of chaos, laughs, and everything in between.</p>
         
         <div id="friendStats" class="row g-4 w-100 max-w-4xl justify-content-center">
-            <div class="col-md-3"><div class="stat-card"><h3>6</h3><p>Months</p></div></div>
-            <div class="col-md-3"><div class="stat-card"><h3>[X]</h3><p>Days</p></div></div>
-            <div class="col-md-3"><div class="stat-card"><h3>[X]</h3><p>Memories</p></div></div>
+            <div class="col-md-3"><div class="stat-card"><h3 id="stat-months">6</h3><p>Months</p></div></div>
+            <div class="col-md-3"><div class="stat-card"><h3 id="stat-days">...</h3><p>Days</p></div></div>
+            <div class="col-md-3"><div class="stat-card"><h3>∞</h3><p>Memories And Many more to come.</p></div></div>
         </div>
+
+        <script>
+            function updateStats() {
+                const startDate = new Date('2025-12-07');
+                const now = new Date();
+                const diffTime = Math.abs(now - startDate);
+                const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+                
+                const months = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
+                
+                document.getElementById('stat-days').textContent = diffDays;
+                document.getElementById('stat-months').textContent = months;
+            }
+            updateStats();
+        </script>
 
         <div class="animate-bounce mt-10">
             <span class="fs-1">↓</span>

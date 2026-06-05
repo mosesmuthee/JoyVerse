@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>23 Things About You 💎</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Nunito:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <style>
+        body { background: #0a0608; color: #f5ede6; overflow: hidden; height: 100vh; }
+        .trait {
+            position: absolute;
+            padding: 10px 20px;
+            background: rgba(212, 160, 23, 0.05);
+            border: 1px solid rgba(212, 160, 23, 0.3);
+            border-radius: 50px;
+            font-size: 1rem;
+            white-space: nowrap;
+            cursor: pointer;
+            z-index: 10;
+            box-shadow: 0 0 15px rgba(212, 160, 23, 0.2);
+            transition: all 0.3s ease;
+        }
+        .trait:hover {
+            background: rgba(212, 160, 23, 0.2);
+            box-shadow: 0 0 25px rgba(212, 160, 23, 0.5);
+            transform: scale(1.1);
+        }
+        
+        #treasureBox {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 8rem;
+            z-index: 20;
+            cursor: pointer;
+            display: none;
+        }
+        
+        #treasureGlow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 0px; height: 0px;
+            background: radial-gradient(circle, #d4a017 0%, transparent 70%);
+            border-radius: 50%;
+            z-index: 15;
+            opacity: 0;
+        }
+
+        #finalJoy {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-family: 'Playfair Display', serif;
+            font-size: 6rem;
+            color: #fff;
+            text-shadow: 0 0 30px #d4a017;
+            z-index: 30;
+            opacity: 0;
+            display: none;
+            white-space: nowrap;
+        }
+
+        .gold-bar {
+            position: absolute;
+            width: 60px; height: 15px;
+            background: linear-gradient(to bottom, #ffd700, #d4a017);
+            border: 1px solid #b8860b;
+            border-radius: 2px;
+            z-index: 25;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body>
+    <div id="traitContainer" class="w-full h-full relative">
+        <div id="treasureGlow"></div>
+        <div id="treasureBox">🎁</div>
+        <div id="finalJoy">JOY 💛</div>
+    </div>
+
+    <div class="fixed bottom-10 left-0 w-full text-center z-50">
+        <button id="mergeBtn" class="btn-glow px-10 py-3 fs-4 rounded-full bg-white text-black border-none opacity-0">
+            Seal her traits ✨
+        </button>
+        <button id="nextBtn" class="btn-glow px-10 py-3 fs-4 rounded-full bg-white text-black border-none" style="display:none;">
+            A Prayer for You →
+        </button>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="js/global.js"></script>
+    <script>
+        const traits = [
+            "Your Kindness", "Your Smile", "Your Strength", "Your Wisdom", "Your Laugh",
+            "Your Grace", "Your Ambition", "Your Patience", "Your Heart", "Your Eyes",
+            "Your Voice", "Your Style", "Your Peace", "Your Energy", "Your Bravery",
+            "Your Humor", "Your Soul", "Your Sparkle", "Your Magic", "Your Love",
+            "Your Dreams", "Your Faith", "Your Everything"
+        ];
+
+        window.addEventListener('load', () => {
+            const container = document.getElementById('traitContainer');
+            const elTraits = [];
+
+            traits.forEach((t, i) => {
+                const div = document.createElement('div');
+                div.className = 'trait';
+                div.textContent = t;
+                
+                // Scattered positions
+                const x = 50 + Math.random() * (window.innerWidth - 200);
+                const y = 50 + Math.random() * (window.innerHeight - 150);
+                
+                gsap.set(div, { x, y, opacity: 0, scale: 0.5 });
+                container.appendChild(div);
+                elTraits.push(div);
+            });
+
+            gsap.to(elTraits, {
+                opacity: 1, scale: 1,
+                duration: 1.5,
+                stagger: { each: 0.05, from: "random" },
+                onComplete: () => {
+                    gsap.to('#mergeBtn', { opacity: 1, duration: 0.5 });
+                }
+            });
+
+            document.getElementById('mergeBtn').onclick = () => {
+                gsap.to('#mergeBtn', { opacity: 0, pointerEvents: 'none' });
+                gsap.set('#treasureBox', { display: 'block', opacity: 0, scale: 0.5 });
+                gsap.to('#treasureBox', { opacity: 1, scale: 1, duration: 1 });
+
+                elTraits.forEach((el, i) => {
+                    gsap.to(el, {
+                        x: window.innerWidth / 2 - el.offsetWidth / 2,
+                        y: window.innerHeight / 2 - el.offsetHeight / 2,
+                        opacity: 0, scale: 0.1,
+                        duration: 2,
+                        delay: i * 0.03,
+                        ease: "back.in(1.7)"
+                    });
+                });
+
+                // Treasure Box Animation
+                setTimeout(() => {
+                    const tl = gsap.timeline();
+                    tl.to('#treasureBox', { rotation: 10, duration: 0.1, repeat: 10, yoyo: true })
+                      .to('#treasureGlow', { width: 600, height: 600, opacity: 0.8, duration: 1.5, ease: "power2.out" })
+                      .to('#treasureBox', { scale: 0, opacity: 0, duration: 0.5 }, "-=0.5")
+                      .set('#finalJoy', { display: 'block' })
+                      .to('#finalJoy', { opacity: 1, scale: 1.5, duration: 1.5, ease: "elastic.out(1, 0.3)" });
+
+                    // Gold Bars & Sparkles
+                    for(let i=0; i<15; i++) {
+                        const bar = document.createElement('div');
+                        bar.className = 'gold-bar';
+                        container.appendChild(bar);
+                        
+                        gsap.set(bar, { 
+                            x: window.innerWidth/2, 
+                            y: window.innerHeight/2, 
+                            rotation: Math.random() * 360 
+                        });
+
+                        gsap.to(bar, {
+                            opacity: 1,
+                            x: window.innerWidth/2 + (Math.random() - 0.5) * 600,
+                            y: window.innerHeight/2 + (Math.random() - 0.5) * 600,
+                            rotation: "+=360",
+                            duration: 2,
+                            delay: 2.5 + (Math.random() * 1),
+                            ease: "power2.out"
+                        });
+                    }
+
+                    setTimeout(() => {
+                        gsap.to('#nextBtn', { display: 'inline-block', opacity: 1, duration: 1 });
+                    }, 5000);
+                }, 2500);
+            };
+
+            document.getElementById('nextBtn').onclick = () => navigateTo('bday-prayer.html');
+        });
+    </script>
+</body>
+</html>

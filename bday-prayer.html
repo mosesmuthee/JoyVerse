@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A Prayer for You 🤍</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="css/global.css">
+    <style>
+        body { background: #0d0810; color: #f5ede6; overflow-x: hidden; min-height: 100vh; }
+        
+        /* Scrolling Watermark */
+        .watermark-container {
+            position: fixed; inset: 0; z-index: 0; pointer-events: none; opacity: 0.1;
+            display: flex; flex-wrap: wrap; justify-content: space-around;
+        }
+        .scrolling-jb {
+            font-size: 5rem; font-weight: 900; color: #d4a017;
+            animation: scrollDown 12s linear infinite;
+            white-space: nowrap;
+        }
+        @keyframes scrollDown {
+            from { transform: translateY(-100vh); }
+            to { transform: translateY(100vh); }
+        }
+
+        /* Nude Sensor Text */
+        .sensor-text {
+            position: fixed; font-family: 'Dancing Script', cursive;
+            font-size: 2.2rem; color: #e8c4b8; text-shadow: 0 0 10px rgba(232, 196, 184, 0.4);
+            z-index: 10; pointer-events: none; white-space: nowrap; opacity: 0.6;
+        }
+
+        .prayer-card {
+            background: rgba(255, 255, 255, 0.03); backdrop-filter: blur(20px);
+            border: 1px solid rgba(212, 160, 23, 0.2); border-radius: 40px;
+            padding: 50px; max-width: 750px; width: 90%; text-align: left;
+            position: relative; z-index: 20; margin: 80px auto;
+            box-shadow: 0 0 50px rgba(0,0,0,0.8);
+        }
+
+        .typewriter-text {
+            font-family: 'Nunito', sans-serif;
+            font-size: 1.25rem;
+            line-height: 2;
+            min-height: 200px;
+        }
+
+        /* Voice Note Feature */
+        .voice-note-container {
+            margin-top: 40px; padding: 25px;
+            background: rgba(212, 160, 23, 0.1);
+            border-radius: 20px; border: 1px solid rgba(212, 160, 23, 0.3);
+            text-align: center;
+        }
+        .vn-title { font-family: 'Dancing Script', cursive; font-size: 1.8rem; color: #d4a017; margin-bottom: 15px; }
+        
+        audio { width: 100%; filter: sepia(0.2) hue-rotate(15deg); }
+        
+        /* Start Overlay */
+        #musicStartOverlay {
+            position: fixed; inset: 0; background: rgba(0,0,0,0.9); z-index: 9999;
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; cursor: pointer;
+        }
+    </style>
+</head>
+<body class="d-flex flex-column align-items-center">
+    <!-- Mandatory Interaction Overlay to force Music -->
+    <div id="musicStartOverlay" onclick="startPrayerExperience()">
+        <span class="display-1 mb-4">🤍</span>
+        <h2 class="display-5 text-white mb-4" style="font-family:'Playfair Display'">A Prayer for JB</h2>
+        <p class="fs-4 opacity-75 text-white mb-5">Tap anywhere to enter this sacred space.</p>
+        <button class="btn-glow px-10 py-3 rounded-full bg-white text-black border-none">Begin 🙏</button>
+    </div>
+
+    <div class="watermark-container" id="watermark"></div>
+    
+    <div class="sensor-text" id="s1">For JB alone ❤</div>
+    <div class="sensor-text" id="s2">For JB alone ❤</div>
+    <div class="sensor-text" id="s3">For JB alone ❤</div>
+    <div class="sensor-text" id="s4">For JB alone ❤</div>
+    <div class="sensor-text" id="s5">For JB alone ❤</div>
+
+    <main class="prayer-card">
+        <h1 style="font-family:'Playfair Display'; color:#d4a017; font-size:3rem; margin-bottom:30px; text-align:center;">A Special Prayer 🤍</h1>
+        
+        <div id="typewriter" class="typewriter-text"></div>
+
+        <div class="voice-note-container">
+            <h3 class="vn-title">A Message from My Heart 🎤</h3>
+            <audio id="voiceNote" controls>
+                <source src="music/shared/voice-note.mp3" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
+            <p class="mt-2 opacity-50 fs-6">Background music will pause while you listen.</p>
+        </div>
+
+        <div class="text-center mt-5">
+            <button onclick="navigateTo('bday-wishes.html')" class="btn-glow px-10 py-3 rounded-full bg-white text-black border-none">Finish 💖</button>
+        </div>
+    </main>
+
+    <script src="https://unpkg.com/typewriter-effect@latest/dist/core.js"></script>
+    <script src="js/global.js"></script>
+    <script>
+        function startPrayerExperience() {
+            document.getElementById('musicStartOverlay').style.display = 'none';
+            localStorage.setItem('musicPlaying', 'true');
+            if (MusicSystem.bgAudio) {
+                MusicSystem.play();
+            }
+            startTypewriter();
+        }
+
+        // Watermark
+        const wm = document.getElementById('watermark');
+        for(let i=0; i<15; i++) {
+            const div = document.createElement('div');
+            div.className = 'scrolling-jb';
+            div.textContent = 'JB';
+            div.style.animationDelay = (Math.random() * 10) + 's';
+            div.style.left = (Math.random() * 100) + 'vw';
+            wm.appendChild(div);
+        }
+
+        // Compliments Position
+        const sensors = [document.getElementById('s1'), document.getElementById('s2'), document.getElementById('s3'), document.getElementById('s4'), document.getElementById('s5')];
+        sensors.forEach((s, i) => {
+            s.style.left = (15 * i + 10) + '%';
+            s.style.top = (15 * i + 15) + '%';
+        });
+
+        // Sensor Logic
+        if (window.DeviceOrientationEvent) {
+            window.addEventListener('deviceorientation', (e) => {
+                const x = e.beta; const y = e.gamma;
+                sensors.forEach((s, i) => {
+                    const offset = (i + 1) * 6;
+                    s.style.transform = `translate(${y * offset / 12}px, ${x * offset / 12}px)`;
+                });
+            });
+        }
+
+        function startTypewriter() {
+            const strings = [
+                "Dearest Joy, on this day I lift you up in prayer...",
+                "May the Lord bless you and keep you.",
+                "May His face shine upon you and give you peace.",
+                "I pray for your health, your happiness, and your dreams.",
+                "You are a rare gem, and I am blessed to know you.",
+                "May this new year of your life be overflowing with joy."
+            ];
+            
+            const target = document.getElementById('typewriter');
+            let currentLine = 0;
+
+            function typeLine() {
+                if (currentLine >= strings.length) return;
+                
+                const lineDiv = document.createElement('p');
+                lineDiv.style.marginBottom = '15px';
+                target.appendChild(lineDiv);
+                
+                new Typewriter(lineDiv, {
+                    delay: 50,
+                    cursor: ''
+                })
+                .typeString(strings[currentLine])
+                .start()
+                .callFunction(() => {
+                    currentLine++;
+                    setTimeout(typeLine, 1000);
+                });
+            }
+            
+            typeLine();
+        }
+
+        // Voice Note Logic
+        const vn = document.getElementById('voiceNote');
+        vn.onplay = () => {
+            if(MusicSystem.bgAudio) {
+                MusicSystem.forcedPause = true;
+                MusicSystem.pause();
+            }
+        };
+        vn.onpause = vn.onended = () => {
+            MusicSystem.forcedPause = false;
+            if(localStorage.getItem('musicPlaying') === 'true') {
+                MusicSystem.play();
+            }
+        };
+    </script>
+</body>
+</html>

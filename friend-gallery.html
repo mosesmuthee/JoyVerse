@@ -10,38 +10,134 @@
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/friend.css">
     <style>
-        .swiper { width: 100%; height: 600px; padding-top: 50px; padding-bottom: 50px; }
-        .swiper-slide { background-position: center; background-size: cover; width: 300px; height: 450px; border-radius: 20px; }
-        @keyframes floatPhoto {
-            0%   { transform: translateY(0px) rotate(-2deg); }
-            50%  { transform: translateY(-18px) rotate(2deg); }
-            100% { transform: translateY(0px) rotate(-2deg); }
+        body { background: #0a0608; color: #f5ede6; overflow-x: hidden; }
+        
+        .gallery-container { padding: 40px 0; }
+
+        /* Main Focused Swiper */
+        .swiper-main {
+            width: 100%;
+            height: 550px;
+            padding-top: 50px;
+            padding-bottom: 50px;
         }
-        .floating-photo { animation: floatPhoto 5s ease-in-out infinite; border-radius: 12px; border: 2px solid var(--color-secondary); }
+        .swiper-main .swiper-slide {
+            background-position: center;
+            background-size: cover;
+            width: 350px;
+            height: 480px;
+            border-radius: 25px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.7);
+            border: 1px solid rgba(255,255,255,0.15);
+            transition: transform 0.3s;
+        }
+
+        /* Thumbs Swiper (The "Moving Photos Below") */
+        .swiper-thumbs {
+            width: 100%;
+            height: 180px;
+            padding: 20px 0;
+            margin-top: 40px;
+        }
+        .swiper-thumbs .swiper-slide {
+            width: 120px;
+            height: 120px;
+            border-radius: 15px;
+            overflow: hidden;
+            cursor: pointer;
+            opacity: 0.4;
+            transition: all 0.3s ease;
+            border: 2px solid transparent;
+        }
+        .swiper-thumbs .swiper-slide-thumb-active {
+            opacity: 1;
+            border-color: #7b5ea7;
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(123, 94, 167, 0.5);
+        }
+        .swiper-thumbs .swiper-slide img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .btn-glow { transition: all 0.3s ease; }
+        .btn-glow:hover { transform: scale(1.05); box-shadow: 0 0 30px rgba(255,255,255,0.4); }
+
+        @media (max-width: 768px) {
+            .swiper-main { height: 450px; }
+            .swiper-main .swiper-slide { width: 280px; height: 380px; }
+            .swiper-thumbs { height: 140px; }
+            .swiper-thumbs .swiper-slide { width: 90px; height: 90px; }
+        }
     </style>
 </head>
 <body>
     <main class="container py-20 text-center">
-        <h1 class="display-3 mb-10" data-aos="fade-up">Some of my favorite moments. 💜</h1>
+        <h1 class="display-3 mb-2 fw-bold" data-aos="fade-down" style="font-family: 'Playfair Display', serif;">Our Infinite Gallery 💜</h1>
+        <p class="fs-4 mb-10 opacity-75" data-aos="fade-up" data-aos-delay="200">Watch our story move through time.</p>
         
-        <div class="swiper swiper-friendship mb-20" data-aos="zoom-in">
+        <!-- Large Preview Swiper -->
+        <div class="swiper swiper-main mb-4" data-aos="zoom-in">
             <div class="swiper-wrapper">
+                <!-- 20 Photo placeholders -->
                 <div class="swiper-slide" style="background-image:url('images/us/us-1.jpg')"></div>
                 <div class="swiper-slide" style="background-image:url('images/us/us-2.jpg')"></div>
                 <div class="swiper-slide" style="background-image:url('images/us/us-3.jpg')"></div>
                 <div class="swiper-slide" style="background-image:url('images/us/us-4.jpg')"></div>
                 <div class="swiper-slide" style="background-image:url('images/us/us-5.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-6.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-7.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-8.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-9.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-10.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-11.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-12.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-13.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-14.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-15.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-16.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-17.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-18.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-19.jpg')"></div>
+                <div class="swiper-slide" style="background-image:url('images/us/us-20.jpg')"></div>
             </div>
-            <div class="swiper-pagination"></div>
-            <div class="swiper-button-next"></div>
-            <div class="swiper-button-prev"></div>
+            <div class="swiper-button-next" style="color: #7b5ea7;"></div>
+            <div class="swiper-button-prev" style="color: #7b5ea7;"></div>
         </div>
 
-        <button onclick="navigateTo('friend-memories.html')" class="btn-glow px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up">
+        <h2 class="display-6 mt-10 mb-4 fw-bold opacity-50" style="font-family: 'Playfair Display', serif;">The Filmstrip 🎞️</h2>
+
+        <!-- The "Photos Below" Swiper (Filmstrip) -->
+        <div class="swiper swiper-thumbs" data-aos="fade-up">
+            <div class="swiper-wrapper">
+                <div class="swiper-slide"><img src="images/us/us-1.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-2.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-3.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-4.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-5.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-6.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-7.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-8.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-9.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-10.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-11.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-12.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-13.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-14.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-15.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-16.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-17.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-18.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-19.jpg"></div>
+                <div class="swiper-slide"><img src="images/us/us-20.jpg"></div>
+            </div>
+        </div>
+
+        <button onclick="navigateTo('friend-memories.html')" class="btn-glow mt-20 px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up">
             Remember the funny stuff →
         </button>
     </main>
@@ -58,16 +154,42 @@
     <script src="js/global.js"></script>
     <script>
         window.addEventListener('load', () => {
-            new Swiper('.swiper-friendship', {
+            AOS.init({ duration: 1000, once: true });
+
+            const swiperThumbs = new Swiper('.swiper-thumbs', {
+                spaceBetween: 15,
+                slidesPerView: 'auto',
+                freeMode: true,
+                watchSlidesProgress: true,
+                centeredSlides: true,
+                slideToClickedSlide: true,
                 loop: true,
-                autoplay: { delay: 3500, disableOnInteraction: false },
+            });
+
+            new Swiper('.swiper-main', {
                 effect: 'coverflow',
                 grabCursor: true,
                 centeredSlides: true,
                 slidesPerView: 'auto',
-                coverflowEffect: { rotate: 40, stretch: 0, depth: 120, modifier: 1, slideShadows: true },
-                pagination: { el: '.swiper-pagination', clickable: true },
-                navigation: { nextEl: '.swiper-button-next', prevEl: '.swiper-button-prev' }
+                loop: true,
+                coverflowEffect: {
+                    rotate: 30,
+                    stretch: 0,
+                    depth: 100,
+                    modifier: 1,
+                    slideShadows: true,
+                },
+                navigation: {
+                    nextEl: '.swiper-button-next',
+                    prevEl: '.swiper-button-prev',
+                },
+                thumbs: {
+                    swiper: swiperThumbs,
+                },
+                autoplay: {
+                    delay: 4000,
+                    disableOnInteraction: false,
+                },
             });
         });
     </script>

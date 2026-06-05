@@ -8,56 +8,61 @@
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/bday.css">
     <style>
+        body { background: #0a0608; color: #f5ede6; overflow-x: hidden; }
         .hero-section {
             background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/joy/joy-bg.jpg');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
+            background-size: cover; background-position: center; min-height: 100vh;
         }
         .countdown-box {
-            background: rgba(255,255,255,0.1);
-            backdrop-filter: blur(10px);
-            border-radius: 15px;
-            padding: 20px;
-            min-width: 100px;
+            background: rgba(255,255,255,0.1); backdrop-filter: blur(10px);
+            border-radius: 15px; padding: 20px; min-width: 110px; border: 1px solid rgba(255,255,255,0.15);
         }
+        @keyframes dance {
+            0%, 100% { transform: translateY(0) rotate(0deg); }
+            25% { transform: translateY(-15px) rotate(-3deg); }
+            75% { transform: translateY(-8px) rotate(3deg); }
+        }
+        .dancing-title {
+            animation: dance 3s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(212, 160, 23, 1), 0 0 40px rgba(232, 160, 191, 0.6);
+            display: inline-block; color: #fff;
+        }
+        .sparkle { position: absolute; pointer-events: none; animation: fly 2s linear forwards; z-index: 100; font-size: 1.5rem; }
+        @keyframes fly { to { transform: translate(var(--tw-translate-x), var(--tw-translate-y)); opacity: 0; } }
+        
+        .btn-glow {
+            background: #d4a017; color: #000; border: none; padding: 15px 45px;
+            border-radius: 50px; font-weight: bold; transition: all 0.3s ease;
+            box-shadow: 0 0 20px rgba(212, 160, 23, 0.4);
+        }
+        .btn-glow:hover { transform: scale(1.05); background: #fff; box-shadow: 0 0 30px rgba(212, 160, 23, 0.6); }
     </style>
 </head>
 <body>
-    
     <section class="hero-section d-flex flex-column justify-content-center align-items-center text-center p-4">
-        <h1 id="bdayTitle" class="display-1 fw-bold mb-3">Happy Birthday, Joy. 🎂</h1>
-        <p id="bdaySubtitle" class="fs-2 mb-5">Today is entirely and completely yours.</p>
-        <div id="bdayScroll" class="animate-bounce mt-5">
-            <span class="fs-1">↓</span>
-        </div>
+        <h1 id="bdayTitle" class="display-1 fw-bold mb-3 dancing-title" style="font-family:'Playfair Display';">Happy Birthday, Joy. 🎂</h1>
+        <p id="bdaySubtitle" class="fs-2 mb-5" style="font-family:'Dancing Script';">Today is entirely and completely yours.</p>
+        <div class="animate-bounce mt-5"><span class="fs-1">↓</span></div>
     </section>
 
-    <section class="py-20 bg-black text-center relative overflow-hidden">
-        <div id="particles-stars" class="absolute inset-0 z-0"></div>
-        <div class="container relative z-10">
-            <h2 class="display-4 mb-5" data-aos="fade-up">You have been on this earth for...</h2>
-            
-            <div class="d-flex justify-content-center gap-3 flex-wrap mb-5" data-aos="zoom-in">
-                <div class="countdown-box"><span id="cnt-yrs" class="display-4 fw-bold d-block">0</span> Years</div>
-                <div class="countdown-box"><span id="cnt-days" class="display-4 fw-bold d-block">0</span> Days</div>
-                <div class="countdown-box"><span id="cnt-hrs" class="display-4 fw-bold d-block">0</span> Hours</div>
-                <div class="countdown-box"><span id="cnt-mins" class="display-4 fw-bold d-block">0</span> Mins</div>
-                <div class="countdown-box"><span id="cnt-secs" class="display-4 fw-bold d-block">0</span> Secs</div>
-            </div>
-
-            <p class="fs-3 mb-10" data-aos="fade-up" data-aos-delay="200">Every single second was worth it. 💛</p>
-            
-            <button onclick="navigateTo('bday-gallery.html')" class="btn-glow px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up" data-aos-delay="400">
-                See your photos →
-            </button>
+    <section class="py-20 text-center container d-flex flex-column align-items-center">
+        <h2 class="display-4 mb-5 fw-bold" data-aos="fade-up">You've graced this world for...</h2>
+        
+        <div class="d-flex justify-content-center gap-3 flex-wrap mb-10" data-aos="zoom-in">
+            <div class="countdown-box"><span id="cnt-yrs" class="display-4 fw-bold d-block">0</span> Years</div>
+            <div class="countdown-box"><span id="cnt-days" class="display-4 fw-bold d-block">0</span> Days</div>
+            <div class="countdown-box"><span id="cnt-hrs" class="display-4 fw-bold d-block">0</span> Hours</div>
+            <div class="countdown-box"><span id="cnt-mins" class="display-4 fw-bold d-block">0</span> Mins</div>
+            <div class="countdown-box"><span id="cnt-secs" class="display-4 fw-bold d-block">0</span> Secs</div>
         </div>
+
+        <button onclick="navigateTo('bday-gallery.html')" class="btn-glow fs-3">
+            Open your surprise →
+        </button>
     </section>
 
     <button id="musicToggleBtn" onclick="MusicSystem.toggle()"
@@ -68,29 +73,46 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper@11/swiper-bundle.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/typed.js/2.0.12/typed.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="js/global.js"></script>
-    <script src="js/bday.js"></script>
     <script>
         window.addEventListener('load', () => {
-            launchStars('particles-stars');
+            AOS.init({ duration: 1000, once: true });
+            const JOY_BIRTH_DATE = new Date('2003-06-12T00:00:00');
             
-            confetti({ 
-                particleCount: 200, 
-                spread: 160, 
-                origin: { y: 0.4 },
-                colors: ['#D4A017', '#F4A7B9', '#8B1A2F', '#fff'] 
-            });
+            function updateAgeCounter() {
+                const now = new Date();
+                const diff = now - JOY_BIRTH_DATE;
+                const yrs = Math.floor(diff / (1000 * 60 * 60 * 24 * 365.25));
+                const days = Math.floor((diff % (1000 * 60 * 60 * 24 * 365.25)) / (1000 * 60 * 60 * 24));
+                const hrs = Math.floor((diff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+                const mins = Math.floor((diff % (1000 * 60 * 60)) / (1000 * 60));
+                const secs = Math.floor((diff % (1000 * 60)) / 1000);
+                
+                document.getElementById('cnt-yrs').textContent = yrs;
+                document.getElementById('cnt-days').textContent = days;
+                document.getElementById('cnt-hrs').textContent = hrs;
+                document.getElementById('cnt-mins').textContent = mins;
+                document.getElementById('cnt-secs').textContent = secs;
+            }
+            setInterval(updateAgeCounter, 1000);
+            updateAgeCounter();
 
-            gsap.timeline()
-                .from('#bdayTitle',    { opacity:0, y:50, duration:1.2, delay:0.3 })
-                .from('#bdaySubtitle', { opacity:0, y:30, duration:0.9 }, '-=0.4')
-                .from('#bdayScroll',   { opacity:0, duration:0.6 }, '-=0.2');
+            setInterval(() => {
+                const sparkle = document.createElement('div');
+                sparkle.innerHTML = '✨'; sparkle.className = 'sparkle';
+                sparkle.style.left = Math.random() * 100 + 'vw';
+                sparkle.style.top = Math.random() * 100 + 'vh';
+                sparkle.style.setProperty('--tw-translate-x', (Math.random() - 0.5) * 300 + 'px');
+                sparkle.style.setProperty('--tw-translate-y', (Math.random() - 0.5) * 300 + 'px');
+                document.body.appendChild(sparkle);
+                setTimeout(() => sparkle.remove(), 2000);
+            }, 400);
+
+            setInterval(() => {
+                confetti({ particleCount: 40, spread: 70, origin: { y: 0.6 }, colors: ['#D4A017', '#F4A7B9'] });
+            }, 5000);
         });
     </script>
 </body>

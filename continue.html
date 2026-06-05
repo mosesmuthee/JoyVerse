@@ -118,6 +118,12 @@
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="js/global.js"></script>
 
+    <button id="musicToggleBtn" onclick="MusicSystem.toggle()"
+      style="position:fixed; bottom:20px; right:20px; z-index:9999;
+             background:rgba(255,255,255,0.1); border:none; border-radius:50%;
+             width:48px; height:48px; font-size:20px; cursor:pointer;
+             backdrop-filter:blur(10px);">🎵</button>
+
     <script>
         function safeNavigateTo(path) {
             if (typeof navigateTo === 'function') navigateTo(path);
