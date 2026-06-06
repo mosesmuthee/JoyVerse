@@ -21,6 +21,28 @@ body {
   overflow-x: hidden;
 }
 
+/* ── Music Toggle Button ── */
+.music-toggle-btn {
+  position: fixed;
+  bottom: 25px;
+  right: 25px;
+  z-index: 10000;
+  background: rgba(255, 255, 255, 0.15);
+  border: none;
+  border-radius: 50%;
+  width: 55px;
+  height: 55px;
+  font-size: 24px;
+  cursor: pointer;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  touch-action: manipulation; /* Improves touch responsiveness */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+}
+
 .glass-card {
   background: rgba(26, 42, 58, 0.3);
   backdrop-filter: blur(15px);
@@ -210,4 +232,3 @@ img {
   .swiper { height: 450px !important; }
   .swiper-slide { width: 240px !important; height: 360px !important; }
 }
-

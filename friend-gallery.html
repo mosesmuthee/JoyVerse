@@ -76,7 +76,7 @@
         finalPhotos.forEach(photo => {
             const path = `images/us/${photo}`;
             mainWrapper.innerHTML += `<div class="swiper-slide" style="background-image:url('${path}')"></div>`;
-            thumbsWrapper.innerHTML += `<div class="swiper-slide"><img src="${path}"></div>`;
+            thumbsWrapper.innerHTML += `<div class="swiper-slide"><img loading="lazy" src="${path}"></div>`;
         });
 
         const swiperThumbs = new Swiper('.swiper-thumbs', {

@@ -37,28 +37,14 @@ const MusicSystem = {
     playlist: [],
     currentIndex: 0,
     forcedPause: false,
-    heartbeatInterval: null,
 
     init(bgSrc, playlist = []) {
         console.log('🎵 MusicSystem: Init with', bgSrc);
         
-        // If already initialized with the SAME source, do NOT restart.
-        if (this.currentSrc === bgSrc && this.bgAudio && !this.bgAudio.paused) {
-            console.log('🎵 MusicSystem: Already flowing. No-op.');
+        // If already playing the correct song, just resume if paused
+        if (this.currentSrc === bgSrc && this.bgAudio) {
+            this.play();
             return;
-        }
-
-        // Logic to decide if we reset time (jumping worlds) or continue (within same world)
-        const isBdaySong = bgSrc.includes('music/birthday/');
-        const wasBdaySong = this.currentSrc && this.currentSrc.includes('music/birthday/');
-        const isFriendSong = bgSrc.includes('music/friendship/');
-        const wasFriendSong = this.currentSrc && this.currentSrc.includes('music/friendship/');
-        const stayingInWorld = (isBdaySong && wasBdaySong) || (isFriendSong && wasFriendSong);
-
-        // Reset timer only if jumping worlds or track changes (unless playlist refresh)
-        if (this.currentSrc && this.currentSrc !== bgSrc && !stayingInWorld) {
-            console.log('🎵 MusicSystem: World jump detected. Resetting time.');
-            localStorage.setItem('musicTime', '0');
         }
 
         if (this.bgAudio) {
@@ -74,23 +60,9 @@ const MusicSystem = {
         this.bgAudio.loop = (this.playlist.length === 0);
         this.bgAudio.volume = 0.35;
 
-        // Special handling for Billion Reasons
-        if (bgSrc.includes('billion-reasons.mp3')) {
-            this.bgAudio.loop = false;
-            this.bgAudio.addEventListener('timeupdate', () => {
-                const duration = this.bgAudio.duration;
-                if (!isNaN(duration) && duration > 10 && this.bgAudio.currentTime > 5) {
-                    if (this.bgAudio.currentTime >= duration - 6.1) {
-                        this.bgAudio.currentTime = 0;
-                        this.bgAudio.play().catch(() => {});
-                    }
-                }
-            });
-        }
-
+        // Playlist progression
         if (this.playlist.length > 0) {
             this.bgAudio.addEventListener('ended', () => {
-                console.log('🎵 MusicSystem: Song ended. Advancing.');
                 this.playNext();
             });
         }
@@ -99,13 +71,8 @@ const MusicSystem = {
         this.isMuted = savedMute;
         this.bgAudio.volume = this.isMuted ? 0 : 0.35;
         
-        // HEARTBEAT SAVE: Save position every second to localStorage
-        if (this.heartbeatInterval) clearInterval(this.heartbeatInterval);
-        this.heartbeatInterval = setInterval(() => {
-            if (this.bgAudio && !this.bgAudio.paused) {
-                localStorage.setItem('musicTime', this.bgAudio.currentTime);
-            }
-        }, 1000);
+        const savedTime = parseFloat(localStorage.getItem('musicTime') || '0');
+        if (savedTime > 0) this.bgAudio.currentTime = savedTime;
 
         this.updateToggleButton();
         this.play();
@@ -118,35 +85,18 @@ const MusicSystem = {
         localStorage.setItem('musicTime', '0');
         localStorage.setItem('musicCurrentSrc', nextSrc);
         this.init(nextSrc, this.playlist);
-        this.play();
     },
 
     play() {
         if (!this.bgAudio || this.forcedPause) return;
-        const shouldPlay = localStorage.getItem('musicPlaying') === 'true';
-        if (!shouldPlay) return;
-
-        const savedTime = parseFloat(localStorage.getItem('musicTime') || '0');
         
-        // Seek to saved time once metadata is ready
-        if (this.bgAudio.paused) {
-            const resumeAudio = () => {
-                if (savedTime > 0 && this.bgAudio.duration > 0 && savedTime < this.bgAudio.duration - 1) {
-                    this.bgAudio.currentTime = savedTime;
-                }
-                this.bgAudio.play().then(() => {
-                    this.updateToggleButton();
-                }).catch(e => {
-                    console.warn('🎵 MusicSystem: Play deferred.', e);
-                });
-            };
-
-            if (this.bgAudio.readyState >= 1) {
-                resumeAudio();
-            } else {
-                this.bgAudio.addEventListener('loadedmetadata', resumeAudio, { once: true });
-            }
-        }
+        // Attempt play, if it fails due to autoplay policy, wait for user click
+        this.bgAudio.play().then(() => {
+            console.log('🎵 MusicSystem: Playing');
+            this.updateToggleButton();
+        }).catch(e => {
+            console.warn('🎵 MusicSystem: Play deferred (autoplay policy).', e);
+        });
     },
 
     pause() {
@@ -168,24 +118,18 @@ const MusicSystem = {
             this.isMuted = false;
             this.bgAudio.volume = 0.35;
             localStorage.setItem('musicPlaying', 'true');
-            this.play();
+            this.bgAudio.play();
         } else {
             this.bgAudio.pause();
             localStorage.setItem('musicPlaying', 'false');
-            this.updateToggleButton();
         }
+        this.updateToggleButton();
     },
 
     updateToggleButton() {
         const btn = document.getElementById('musicToggleBtn');
         if (!btn) return;
-        if (this.bgAudio && !this.bgAudio.paused) {
-            btn.textContent = '🎵';
-            btn.classList.add('playing');
-        } else {
-            btn.textContent = '🔇';
-            btn.classList.remove('playing');
-        }
+        btn.textContent = (this.bgAudio && !this.bgAudio.paused) ? '🎵' : '🔇';
     }
 };
 
@@ -229,101 +173,33 @@ function initPageMusic() {
     }
 
     MusicSystem.init(bgSrc, playlist);
-    if (localStorage.getItem('musicPlaying') === 'true') {
-        MusicSystem.play();
-    }
 }
 
+// Ensure init runs after DOM
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', initPageMusic);
 } else {
     initPageMusic();
 }
 
-window.addEventListener('load', () => {
-    const musicBtn = document.getElementById('musicToggleBtn');
-    if (musicBtn) musicBtn.onclick = () => MusicSystem.toggle();
-    
-    document.body.classList.add('animate__animated', 'animate__fadeIn');
-    createFloralRain();
-    if (typeof AOS !== 'undefined') AOS.init({ duration: 900, once: true, offset: 80 });
+// Resume music on click/tab interaction
+document.addEventListener('click', () => {
+    localStorage.setItem('musicPlaying', 'true');
+    MusicSystem.play();
+}, { once: true });
+
+document.addEventListener('visibilitychange', () => {
+    if (!document.hidden && localStorage.getItem('musicPlaying') === 'true') {
+        MusicSystem.play();
+    }
 });
 
-document.addEventListener('click', () => {
-    if (localStorage.getItem('musicPlaying') === 'true' && MusicSystem.bgAudio && MusicSystem.bgAudio.paused && !MusicSystem.forcedPause) {
-        MusicSystem.play();
-    }
-    const isIndex = window.location.pathname.endsWith('index.html') || window.location.pathname === '/' || window.location.pathname.endsWith('Combined/');
-    if (isIndex && MusicSystem.bgAudio && MusicSystem.bgAudio.paused) {
-        localStorage.setItem('musicPlaying', 'true');
-        MusicSystem.play();
-    }
-}, { once: false });
-
 window.addEventListener('beforeunload', () => MusicSystem.saveState());
-window.addEventListener('pagehide', () => MusicSystem.saveState());
 
 function navigateTo(url, delay = 600) {
-    document.body.classList.add('animate__animated', 'animate__fadeOut');
     MusicSystem.saveState();
+    document.body.classList.add('animate__animated', 'animate__fadeOut');
     setTimeout(() => {
         window.location.href = url;
     }, delay);
-}
-
-// ── Visual Effects ────────────────────────────────────────────────────────────
-function createFloralRain() {
-    const container = document.createElement('div');
-    container.className = 'flower-container';
-    document.body.appendChild(container);
-    const flowerTypes = ['flower-red-rose','flower-white-rose','flower-purple-rose','flower-black-gold','flower-tulip'];
-    setInterval(() => {
-        if (document.hidden) return;
-        const flower   = document.createElement('div');
-        const type     = flowerTypes[Math.floor(Math.random() * flowerTypes.length)];
-        const size     = Math.random() * 20 + 20;
-        const left     = Math.random() * 100;
-        const duration = Math.random() * 5 + 5;
-        const delay    = Math.random() * 2;
-        flower.className       = `flower ${type}`;
-        flower.style.width     = `${size}px`;
-        flower.style.height    = `${size}px`;
-        flower.style.left      = `${left}vw`;
-        flower.style.animation = `fall ${duration}s linear ${delay}s infinite`;
-        if (container.children.length < 30) {
-            container.appendChild(flower);
-            setTimeout(() => flower.remove(), (duration + delay) * 1000);
-        }
-    }, 600);
-}
-
-function launchHearts(containerId) {
-    if (typeof particlesJS !== 'undefined') {
-        particlesJS(containerId, {
-            particles: {
-                number: { value: 40 },
-                color:  { value: ['#F4A7B9','#D4A017','#E8A0BF'] },
-                shape:  { type: 'heart' },
-                opacity: { value: 0.6, random: true },
-                size:    { value: 6, random: true },
-                move:    { enable: true, speed: 2, direction: 'top', out_mode: 'out' }
-            },
-            interactivity: { events: { onhover: { enable: false } } }
-        });
-    }
-}
-
-function launchStars(containerId) {
-    if (typeof particlesJS !== 'undefined') {
-        particlesJS(containerId, {
-            particles: {
-                number: { value: 60 },
-                color:  { value: '#D4A017' },
-                shape:  { type: 'star' },
-                opacity: { value: 0.5, random: true },
-                size:    { value: 3, random: true },
-                move:    { enable: true, speed: 1.5, direction: 'none' }
-            }
-        });
-    }
 }

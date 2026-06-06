@@ -27,6 +27,11 @@
         .path-card:hover { transform: translateY(-10px) scale(1.02); }
         .enter-btn { background: #fff; color: #000; border: none; padding: 12px 35px; border-radius: 50px; font-weight: bold; margin-top: 20px; transition: all 0.3s ease; }
         .enter-btn:hover { background: #d4a017; transform: scale(1.1); }
+        
+        /* Locked styling */
+        .path-card.locked { cursor: not-allowed; filter: grayscale(0.8); }
+        .lock-icon { font-size: 3rem; margin-bottom: 1rem; }
+        .glow-red { text-shadow: 0 0 10px #ff0000, 0 0 20px #ff0000; color: #ff0000; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -36,11 +41,11 @@
 
         <div class="row w-100 g-4 max-w-5xl">
             <div class="col-md-6" data-aos="fade-right">
-                <div id="bdayCard" class="path-card" onclick="navigateTo('bday-hero.html')">
-                    <span class="display-1 mb-3">🎂</span>
-                    <h2 class="display-6 fw-bold mb-3">Joy's Birthday</h2>
-                    <p>A celebration of the most beautiful soul on her special day.</p>
-                    <button class="enter-btn">Enter World 🎂</button>
+                <div id="bdayCard" class="path-card locked" onclick="checkBdayLock()">
+                    <span id="lockIcon" class="lock-icon">🎂</span>
+                    <h2 class="display-6 fw-bold mb-3" style="font-family:'Playfair Display';">JB's Birthday</h2>
+                    <p id="bdayDesc">A celebration of the most beautiful soul.</p>
+                    <div id="countdown" class="glow-red fs-3"></div>
                 </div>
             </div>
             <div class="col-md-6" data-aos="fade-left">
@@ -61,7 +66,44 @@
              backdrop-filter:blur(10px);">🎵</button>
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
     <script src="js/global.js"></script>
-    <script>window.addEventListener('load', () => { AOS.init({ duration: 1000, once: true }); });</script>
+    <script>
+        window.addEventListener('load', () => { AOS.init({ duration: 1000, once: true }); });
+        
+        const BDAY_DATE = new Date('2026-06-12T00:00:00');
+
+        function checkBdayLock() {
+            if (new Date() >= BDAY_DATE) {
+                localStorage.setItem('joyPath', 'birthday');
+                navigateTo('bday-hero.html');
+            } else {
+                Swal.fire({
+                    title: 'Not yet! 🤫',
+                    text: 'you can wait, relaaaax',
+                    icon: 'info',
+                    background: '#0a0608',
+                    color: '#f5ede6'
+                });
+            }
+        }
+
+        function updateCountdown() {
+            const now = new Date();
+            const diff = BDAY_DATE - now;
+            if (diff <= 0) {
+                document.getElementById('countdown').textContent = 'UNLOCKED! 🥳';
+                document.getElementById('bdayCard').classList.remove('locked');
+                return;
+            }
+            const days = Math.floor(diff / (1000*60*60*24));
+            const hrs  = Math.floor((diff % (1000*60*60*24)) / (1000*60*60));
+            const mins = Math.floor((diff % (1000*60*60)) / (1000*60));
+            document.getElementById('countdown').textContent = `${days}d ${hrs}h ${mins}m left`;
+        }
+        
+        setInterval(updateCountdown, 1000);
+        updateCountdown();
+    </script>
 </body>
 </html>
