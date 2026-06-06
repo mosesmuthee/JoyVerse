@@ -1,300 +1,10 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Happy Birthday, Joy! 🎂</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
-    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="css/global.css">
-    <style>
-        .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), url('images/joy/joy-bg.webp');
-            background-size: cover;
-            background-position: center;
-            min-height: 100vh;
-        }
-
-        /* Transparent glass panel — no solid bg so photos show through */
-        .glass-panel {
-            background: rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(2px);
-            padding: 2rem;
-            border-radius: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
-        }
-
-        .countdown-box {
-            background: rgba(255,255,255,0.07);
-            backdrop-filter: blur(6px);
-            border-radius: 15px;
-            padding: 20px;
-            min-width: 110px;
-            border: 1px solid rgba(255,255,255,0.12);
-        }
-
-        /* Dancing title — semi-transparent with strong glow so it's always readable */
-        @keyframes dance {
-            0%, 100% { transform: translateY(0) rotate(0deg); }
-            25% { transform: translateY(-15px) rotate(-3deg); }
-            75% { transform: translateY(-8px) rotate(3deg); }
-        }
-
-        .dancing-title {
-            animation: dance 3s ease-in-out infinite;
-            display: inline-block;
-            color: rgba(255, 255, 255, 0.75);
-            text-shadow:
-                0 0 10px rgba(255, 255, 255, 0.9),
-                0 0 25px rgba(255, 255, 255, 0.7),
-                0 0 50px rgba(212, 160, 23, 0.9),
-                0 0 80px rgba(232, 160, 191, 0.8),
-                0 0 120px rgba(212, 160, 23, 0.5);
-        }
-
-        /* Subtitle glow */
-        .glow-subtitle {
-            color: rgba(255, 255, 255, 0.7);
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.9),
-                0 0 20px rgba(232, 160, 191, 0.8),
-                0 0 45px rgba(232, 160, 191, 0.5);
-        }
-
-        /* Section heading glow */
-        .glow-heading {
-            color: rgba(255, 255, 255, 0.75);
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.9),
-                0 0 20px rgba(255, 255, 255, 0.6),
-                0 0 50px rgba(212, 160, 23, 0.7);
-        }
-
-        /* Counter numbers glow */
-        .glow-number {
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 1),
-                0 0 20px rgba(212, 160, 23, 0.9),
-                0 0 45px rgba(212, 160, 23, 0.6);
-        }
-
-        /* Bottom caption glow */
-        .glow-caption {
-            color: rgba(255, 255, 255, 0.7);
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(232, 160, 191, 0.7),
-                0 0 40px rgba(232, 160, 191, 0.4);
-        }
-
-        .falling-photo {
-            position: absolute;
-            width: 100px;
-            height: 130px;
-            object-fit: cover;
-            padding: 5px 5px 15px 5px;
-            background: #fff;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            border: 1px solid #ddd;
-            pointer-events: none;
-            z-index: 0;
-            opacity: 0.4;
-        }
-
-        /* Counter label text */
-        .countdown-box p {
-            color: rgba(255, 255, 255, 0.6);
-            text-shadow: 0 0 8px rgba(255,255,255,0.5);
-            margin: 0;
-        }
-    </style>
-</head>
-<body>
-    <div id="rainContainer" class="w-full h-full fixed inset-0 z-0"></div>
-
-    <section class="hero-section d-flex flex-column justify-content-center align-items-center text-center p-4 relative z-10">
-        <div class="glass-panel">
-            <h1 id="bdayTitle" class="display-1 fw-bold mb-3 dancing-title" style="font-family:'Playfair Display';">Happy Birthday, Joy. 🎂</h1>
-            <p id="bdaySubtitle" class="fs-2 mb-0 glow-subtitle" style="font-family:'Dancing Script';">Today is entirely and completely yours.</p>
-        </div>
-        <div id="bdayScroll" class="animate-bounce mt-5">
-            <span class="fs-1" style="color:rgba(255,255,255,0.7); text-shadow: 0 0 15px rgba(255,255,255,0.9);">↓</span>
-        </div>
-    </section>
-
-    <section class="py-20 text-center relative overflow-hidden" style="background: rgba(0,0,0,0.4); backdrop-filter: blur(3px);">
-        <div class="container relative z-10">
-            <h2 class="display-4 mb-5 glow-heading" data-aos="fade-up">You have been on this earth for...</h2>
-
-            <div class="d-flex justify-content-center gap-3 flex-wrap mb-5" data-aos="zoom-in">
-                <div class="countdown-box"><span id="cnt-yrs"  class="display-4 fw-bold d-block glow-number">0</span><p>Years</p></div>
-                <div class="countdown-box"><span id="cnt-days" class="display-4 fw-bold d-block glow-number">0</span><p>Days</p></div>
-                <div class="countdown-box"><span id="cnt-hrs"  class="display-4 fw-bold d-block glow-number">0</span><p>Hours</p></div>
-                <div class="countdown-box"><span id="cnt-mins" class="display-4 fw-bold d-block glow-number">0</span><p>Mins</p></div>
-                <div class="countdown-box"><span id="cnt-secs" class="display-4 fw-bold d-block glow-number">0</span><p>Secs</p></div>
-            </div>
-
-            <p class="fs-3 mb-10 glow-caption" data-aos="fade-up" data-aos-delay="200">Every single second was worth it. 💛</p>
-
-            <button onclick="navigateTo('bday-gallery.html')" class="btn-glow px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up" data-aos-delay="400">
-                See your photos →
-            </button>
-        </div>
-    </section>
-
-    <button id="musicToggleBtn" class="music-toggle-btn">🎵</button>
-
-    <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="js/global.js"></script>
-
-    <script>
-        // ── Age counter from June 12, 2003 ─────────────────────
-        const birthDate = new Date('2003-06-12T00:00:00');
-
-        function updateCounter() {
-            const now = new Date();
-            const diff = now - birthDate; // milliseconds
-
-            const totalSecs  = Math.floor(diff / 1000);
-            const totalMins  = Math.floor(diff / (1000 * 60));
-            const totalHrs   = Math.floor(diff / (1000 * 60 * 60));
-            const totalDays  = Math.floor(diff / (1000 * 60 * 60 * 24));
-
-            const years = now.getFullYear() - birthDate.getFullYear() -
-                ((now.getMonth() < birthDate.getMonth() ||
-                 (now.getMonth() === birthDate.getMonth() && now.getDate() < birthDate.getDate())) ? 1 : 0);
-
-            // Days beyond the last birthday
-            const lastBday = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate());
-            if (now < lastBday) lastBday.setFullYear(lastBday.getFullYear() - 1);
-            const daysSinceBday = Math.floor((now - lastBday) / (1000 * 60 * 60 * 24));
-
-            const hrs  = now.getHours();
-            const mins = now.getMinutes();
-            const secs = now.getSeconds();
-
-            document.getElementById('cnt-yrs').textContent  = years;
-            document.getElementById('cnt-days').textContent = daysSinceBday;
-            document.getElementById('cnt-hrs').textContent  = hrs;
-            document.getElementById('cnt-mins').textContent = mins;
-            document.getElementById('cnt-secs').textContent = secs;
-        }
-
-        updateCounter();
-        setInterval(updateCounter, 1000);
-
-        // ── Falling photos ─────────────────────────────────────
-        const photos = [
-            'IMG-20251224-WA0052.webp', 'IMG-20251224-WA0055.webp', 'IMG-20251224-WA0059.webp',
-            'IMG-20251224-WA0060.webp', 'IMG-20251224-WA0061.webp', 'IMG-20251224-WA0062.webp',
-            'IMG-20251224-WA0065.webp', 'IMG-20251224-WA0074.webp', 'IMG-20251224-WA0075.webp',
-            'IMG-20251224-WA0076.webp', 'IMG-20251224-WA0077.webp', 'IMG-20251224-WA0129.webp',
-            'IMG-20251224-WA0133.webp', 'IMG-20251224-WA0134.webp', 'IMG-20251224-WA0135.webp',
-            'IMG-20251225-WA0035.webp', 'IMG-20260101-WA0021.webp', 'IMG-20260101-WA0022.webp',
-            'IMG-20260101-WA0023.webp', 'IMG-20260101-WA0027.webp', 'IMG-20260101-WA0029.webp',
-            'IMG-20260101-WA0031.webp', 'IMG-20260101-WA0033.webp', 'IMG-20260101-WA0034.webp',
-            'IMG-20260101-WA0036.webp', 'IMG-20260101-WA0037.webp', 'IMG-20260101-WA0039.webp',
-            'IMG-20260103-WA0023.webp', 'IMG-20260104-WA0027.webp', 'IMG-20260104-WA0028.webp',
-            'IMG-20260104-WA0029.webp', 'IMG-20260104-WA0030.webp', 'IMG-20260104-WA0032.webp',
-            'IMG-20260104-WA0033.webp', 'IMG-20260104-WA0034.webp', 'IMG-20260104-WA0035.webp',
-            'IMG-20260104-WA0036.webp', 'IMG-20260104-WA0037.webp', 'IMG-20260104-WA0038.webp',
-            'IMG-20260111-WA0007.webp', 'IMG-20260111-WA0015.webp', 'IMG-20260112-WA0051.webp',
-            'IMG-20260112-WA0054.webp', 'IMG-20260112-WA0057.webp', 'IMG-20260120-WA0049.webp',
-            'IMG-20260120-WA0051.webp', 'IMG-20260120-WA0053.webp', 'IMG-20260120-WA0055.webp',
-            'IMG-20260120-WA0057.webp', 'IMG-20260120-WA0059.webp', 'IMG-20260120-WA0061.webp',
-            'IMG-20260120-WA0063.webp', 'IMG-20260120-WA0065.webp', 'IMG20260120-WA0067.webp',
-            'IMG20260120-WA0069.webp',  'IMG20260121-WA0073.webp',  'IMG20260121-WA0074.webp',
-            'IMG20260121-WA0127.webp',  'IMG20260121-WA0131.webp',  'IMG20260121-WA0133.webp',
-            'IMG20260121-WA0135.webp',  'IMG20260121-WA0144.webp',  'IMG20260121-WA0145.webp',
-            'IMG20260122-WA0029.webp',  'IMG20260122-WA0031.webp',  'IMG20260122-WA0033.webp',
-            'IMG20260122-WA0035.webp',  'IMG20260122-WA0037.webp',  'IMG20260122-WA0039.webp',
-            'IMG20260122-WA0041.webp',  'IMG20260127-WA0014.webp',  'IMG20260215-WA0024.webp',
-            'IMG20260215-WA0025.webp',  'IMG20260215-WA0026.webp',  'IMG20260215-WA0027.webp',
-            'IMG20260215-WA0028.webp',  'IMG20260228-WA0006.webp',  'IMG20260228-WA0017.webp',
-            'IMG20260228-WA0018.webp',  'IMG20260228-WA0019.webp',  'IMG20260228-WA0020.webp',
-            'IMG20260228-WA0021.webp',  'IMG20260228-WA0022.webp',  'IMG20260228-WA0023.webp',
-            'IMG20260228-WA0024.webp',  'IMG20260228-WA0025.webp',  'IMG20260228-WA0026.webp',
-            'IMG20260301-WA0036.webp',  'IMG20260301-WA0037.webp',  'IMG20260301-WA0038.webp',
-            'IMG20260301-WA0039.webp',  'IMG20260301-WA0040.webp',  'IMG20260301-WA0041.webp',
-            'IMG20260301-WA0042.webp',  'IMG20260301-WA0043.webp',  'IMG20260301-WA0044.webp',
-            'IMG20260310-WA0021.webp',  'IMG20260310-WA0025.webp',  'IMG20260310-WA0031.webp',
-            'IMG20260310-WA0032.webp',  'IMG20260310-WA0033.webp',  'IMG20260310-WA0034.webp',
-            'IMG20260310-WA0035.webp',  'IMG20260310-WA0036.webp',  'IMG20260310-WA0037.webp',
-            'IMG20260310-WA0038.webp',
-            'WhatsApp Image 2026-05-10 at 3.04.54 PM.webp',
-            'WhatsApp Image 2026-05-17 at 5.52.18 PM.webp',
-            'WhatsApp Image 2026-05-23 at 8.54.01 PM.webp',
-            'WhatsApp Image 2026-05-23 at 8.54.02 PM.webp',
-            'WhatsApp Image 2026-05-24 at 7.18.27 PM.webp',
-            'WhatsApp Image 2026-05-24 at 7.18.28 PM.webp',
-            'WhatsApp Image 2026-05-27 at 11.03.21 PM.webp',
-            'WhatsApp Image 2026-05-28 at 7.25.20 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.22.00 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.22.19 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.22.43 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.55.10 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.55.20 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.55.33 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.55.44 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.57.25 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.59.38 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.00.16 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.00.41 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.01.13 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.12.04 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.14.42 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.15.05 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.32 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.33 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.34 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.35 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.37 PM.webp',
-        ];
-
-        function createPhoto() {
-            const container = document.getElementById('rainContainer');
-            const img = document.createElement('img');
-            img.src = `images/joy/${photos[Math.floor(Math.random() * photos.length)]}`;
-            img.className = 'falling-photo';
-
-            const startX = Math.random() * window.innerWidth;
-            const duration = 12 + Math.random() * 8;
-
-            gsap.set(img, { x: startX, y: -250, opacity: 0, rotation: Math.random() * 20 - 10 });
-            container.appendChild(img);
-
-            gsap.to(img, {
-                y: window.innerHeight + 250,
-                opacity: 0.4,
-                duration: duration,
-                ease: 'none',
-                onComplete: () => img.remove()
-            });
-        }
-
-        setInterval(createPhoto, 800);
-
-        // ── Boot ───────────────────────────────────────────────
-        window.addEventListener('load', () => {
-            AOS.init({ duration: 1000, once: true });
-        });
-    </script>
-</body>
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Happy Birthday, Joy! 🎂</title>
+    <link rel="preload" as="image" href="images/joy/joy-bg.webp">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
@@ -310,19 +20,19 @@
             min-height: 100vh;
         }
         .glass-panel {
-            background: rgba(0, 0, 0, 0.15);
-            backdrop-filter: blur(2px);
+            background: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(8px);
             padding: 2rem;
             border-radius: 2rem;
-            border: 1px solid rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
         .countdown-box {
-            background: rgba(255,255,255,0.07);
-            backdrop-filter: blur(6px);
+            background: rgba(255,255,255,0.1);
+            backdrop-filter: blur(10px);
             border-radius: 15px;
             padding: 20px;
             min-width: 110px;
-            border: 1px solid rgba(255,255,255,0.12);
+            border: 1px solid rgba(255,255,255,0.15);
         }
         @keyframes dance {
             0%, 100% { transform: translateY(0) rotate(0deg); }
@@ -331,42 +41,9 @@
         }
         .dancing-title {
             animation: dance 3s ease-in-out infinite;
+            text-shadow: 0 0 20px rgba(212, 160, 23, 1), 0 0 40px rgba(232, 160, 191, 0.6);
             display: inline-block;
-            color: rgba(255, 255, 255, 0.75);
-            text-shadow:
-                0 0 10px rgba(255, 255, 255, 0.9),
-                0 0 25px rgba(255, 255, 255, 0.7),
-                0 0 50px rgba(212, 160, 23, 0.9),
-                0 0 80px rgba(232, 160, 191, 0.8),
-                0 0 120px rgba(212, 160, 23, 0.5);
-        }
-        .glow-subtitle {
-            color: rgba(255, 255, 255, 0.7);
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.9),
-                0 0 20px rgba(232, 160, 191, 0.8),
-                0 0 45px rgba(232, 160, 191, 0.5);
-        }
-        .glow-heading {
-            color: rgba(255, 255, 255, 0.75);
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.9),
-                0 0 20px rgba(255, 255, 255, 0.6),
-                0 0 50px rgba(212, 160, 23, 0.7);
-        }
-        .glow-number {
-            color: rgba(255, 255, 255, 0.8);
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 1),
-                0 0 20px rgba(212, 160, 23, 0.9),
-                0 0 45px rgba(212, 160, 23, 0.6);
-        }
-        .glow-caption {
-            color: rgba(255, 255, 255, 0.7);
-            text-shadow:
-                0 0 8px rgba(255, 255, 255, 0.8),
-                0 0 20px rgba(232, 160, 191, 0.7),
-                0 0 40px rgba(232, 160, 191, 0.4);
+            color: #fff;
         }
         .falling-photo {
             position: absolute;
@@ -378,43 +55,38 @@
             box-shadow: 0 5px 15px rgba(0,0,0,0.3);
             border: 1px solid #ddd;
             pointer-events: none;
-            z-index: 0;
-            opacity: 0.85;
-        }
-        .countdown-box p {
-            color: rgba(255, 255, 255, 0.6);
-            text-shadow: 0 0 8px rgba(255,255,255,0.5);
-            margin: 0;
+            z-index: 100;
+            opacity: 0.4;
         }
     </style>
 </head>
 <body>
-    <div id="rainContainer" class="w-full h-full fixed inset-0 z-0"></div>
-
+    <div id="rainContainer" class="w-full h-full fixed inset-0 z-50"></div>
+    
     <section class="hero-section d-flex flex-column justify-content-center align-items-center text-center p-4 relative z-10">
         <div class="glass-panel">
             <h1 id="bdayTitle" class="display-1 fw-bold mb-3 dancing-title" style="font-family:'Playfair Display';">Happy Birthday, Joy. 🎂</h1>
-            <p id="bdaySubtitle" class="fs-2 mb-0 glow-subtitle" style="font-family:'Dancing Script';">Today is entirely and completely yours.</p>
+            <p id="bdaySubtitle" class="fs-2 mb-0" style="font-family:'Dancing Script'; color: white;">Today is entirely and completely yours.</p>
         </div>
         <div id="bdayScroll" class="animate-bounce mt-5">
-            <span class="fs-1" style="color:rgba(255,255,255,0.7); text-shadow: 0 0 15px rgba(255,255,255,0.9);">↓</span>
+            <span class="fs-1 text-white">↓</span>
         </div>
     </section>
 
-    <section class="py-20 text-center relative overflow-hidden" style="background: rgba(0,0,0,0.4); backdrop-filter: blur(3px);">
+    <section class="py-20 text-center relative overflow-hidden" style="background: rgba(0,0,0,0.6); backdrop-filter: blur(5px);">
         <div class="container relative z-10">
-            <h2 class="display-4 mb-5 glow-heading" data-aos="fade-up">You have been on this earth for...</h2>
-
+            <h2 class="display-4 mb-5 text-white" data-aos="fade-up">You have been on this earth for...</h2>
+            
             <div class="d-flex justify-content-center gap-3 flex-wrap mb-5" data-aos="zoom-in">
-                <div class="countdown-box"><span id="cnt-yrs"  class="display-4 fw-bold d-block glow-number">0</span><p>Years</p></div>
-                <div class="countdown-box"><span id="cnt-days" class="display-4 fw-bold d-block glow-number">0</span><p>Days</p></div>
-                <div class="countdown-box"><span id="cnt-hrs"  class="display-4 fw-bold d-block glow-number">0</span><p>Hours</p></div>
-                <div class="countdown-box"><span id="cnt-mins" class="display-4 fw-bold d-block glow-number">0</span><p>Mins</p></div>
-                <div class="countdown-box"><span id="cnt-secs" class="display-4 fw-bold d-block glow-number">0</span><p>Secs</p></div>
+                <div class="countdown-box"><span id="cnt-yrs" class="display-4 fw-bold d-block text-white">0</span>Years</div>
+                <div class="countdown-box"><span id="cnt-days" class="display-4 fw-bold d-block text-white">0</span>Days</div>
+                <div class="countdown-box"><span id="cnt-hrs" class="display-4 fw-bold d-block text-white">0</span>Hours</div>
+                <div class="countdown-box"><span id="cnt-mins" class="display-4 fw-bold d-block text-white">0</span>Mins</div>
+                <div class="countdown-box"><span id="cnt-secs" class="display-4 fw-bold d-block text-white">0</span>Secs</div>
             </div>
 
-            <p class="fs-3 mb-10 glow-caption" data-aos="fade-up" data-aos-delay="200">Every single second was worth it. 💛</p>
-
+            <p class="fs-3 mb-10 text-white" data-aos="fade-up" data-aos-delay="200">Every single second was worth it. 💛</p>
+            
             <button onclick="navigateTo('bday-gallery.html')" class="btn-glow px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up" data-aos-delay="400">
                 See your photos →
             </button>
@@ -426,129 +98,48 @@
     <script defer src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="js/global.js"></script>
-
     <script>
-        // ── Age counter from June 12, 2003 ─────────────────────
-        const birthDate = new Date('2003-06-12T00:00:00');
-
-        function updateCounter() {
-            const now = new Date();
-
-            const years = now.getFullYear() - birthDate.getFullYear() -
-                ((now.getMonth() < birthDate.getMonth() ||
-                 (now.getMonth() === birthDate.getMonth() && now.getDate() < birthDate.getDate())) ? 1 : 0);
-
-            const lastBday = new Date(now.getFullYear(), birthDate.getMonth(), birthDate.getDate());
-            if (now < lastBday) lastBday.setFullYear(lastBday.getFullYear() - 1);
-            const daysSinceBday = Math.floor((now - lastBday) / (1000 * 60 * 60 * 24));
-
-            document.getElementById('cnt-yrs').textContent  = years;
-            document.getElementById('cnt-days').textContent = daysSinceBday;
-            document.getElementById('cnt-hrs').textContent  = now.getHours();
-            document.getElementById('cnt-mins').textContent = now.getMinutes();
-            document.getElementById('cnt-secs').textContent = now.getSeconds();
-        }
-
-        updateCounter();
-        setInterval(updateCounter, 1000);
-
-        // ── Falling photos ─────────────────────────────────────
         const photos = [
-            'IMG-20251224-WA0052.webp', 'IMG-20251224-WA0055.webp', 'IMG-20251224-WA0059.webp',
-            'IMG-20251224-WA0060.webp', 'IMG-20251224-WA0061.webp', 'IMG-20251224-WA0062.webp',
-            'IMG-20251224-WA0065.webp', 'IMG-20251224-WA0074.webp', 'IMG-20251224-WA0075.webp',
-            'IMG-20251224-WA0076.webp', 'IMG-20251224-WA0077.webp', 'IMG-20251224-WA0129.webp',
-            'IMG-20251224-WA0133.webp', 'IMG-20251224-WA0134.webp', 'IMG-20251224-WA0135.webp',
-            'IMG-20251225-WA0035.webp', 'IMG-20260101-WA0021.webp', 'IMG-20260101-WA0022.webp',
-            'IMG-20260101-WA0023.webp', 'IMG-20260101-WA0027.webp', 'IMG-20260101-WA0029.webp',
-            'IMG-20260101-WA0031.webp', 'IMG-20260101-WA0033.webp', 'IMG-20260101-WA0034.webp',
-            'IMG-20260101-WA0036.webp', 'IMG-20260101-WA0037.webp', 'IMG-20260101-WA0039.webp',
-            'IMG-20260103-WA0023.webp', 'IMG-20260104-WA0027.webp', 'IMG-20260104-WA0028.webp',
-            'IMG-20260104-WA0029.webp', 'IMG-20260104-WA0030.webp', 'IMG-20260104-WA0032.webp',
-            'IMG-20260104-WA0033.webp', 'IMG-20260104-WA0034.webp', 'IMG-20260104-WA0035.webp',
-            'IMG-20260104-WA0036.webp', 'IMG-20260104-WA0037.webp', 'IMG-20260104-WA0038.webp',
-            'IMG-20260111-WA0007.webp', 'IMG-20260111-WA0015.webp', 'IMG-20260112-WA0051.webp',
-            'IMG-20260112-WA0054.webp', 'IMG-20260112-WA0057.webp', 'IMG-20260120-WA0049.webp',
-            'IMG-20260120-WA0051.webp', 'IMG-20260120-WA0053.webp', 'IMG-20260120-WA0055.webp',
-            'IMG-20260120-WA0057.webp', 'IMG-20260120-WA0059.webp', 'IMG-20260120-WA0061.webp',
-            'IMG-20260120-WA0063.webp', 'IMG-20260120-WA0065.webp', 'IMG20260120-WA0067.webp',
-            'IMG20260120-WA0069.webp',  'IMG20260121-WA0073.webp',  'IMG20260121-WA0074.webp',
-            'IMG20260121-WA0127.webp',  'IMG20260121-WA0131.webp',  'IMG20260121-WA0133.webp',
-            'IMG20260121-WA0135.webp',  'IMG20260121-WA0144.webp',  'IMG20260121-WA0145.webp',
-            'IMG20260122-WA0029.webp',  'IMG20260122-WA0031.webp',  'IMG20260122-WA0033.webp',
-            'IMG20260122-WA0035.webp',  'IMG20260122-WA0037.webp',  'IMG20260122-WA0039.webp',
-            'IMG20260122-WA0041.webp',  'IMG20260127-WA0014.webp',  'IMG20260215-WA0024.webp',
-            'IMG20260215-WA0025.webp',  'IMG20260215-WA0026.webp',  'IMG20260215-WA0027.webp',
-            'IMG20260215-WA0028.webp',  'IMG20260228-WA0006.webp',  'IMG20260228-WA0017.webp',
-            'IMG20260228-WA0018.webp',  'IMG20260228-WA0019.webp',  'IMG20260228-WA0020.webp',
-            'IMG20260228-WA0021.webp',  'IMG20260228-WA0022.webp',  'IMG20260228-WA0023.webp',
-            'IMG20260228-WA0024.webp',  'IMG20260228-WA0025.webp',  'IMG20260228-WA0026.webp',
-            'IMG20260301-WA0036.webp',  'IMG20260301-WA0037.webp',  'IMG20260301-WA0038.webp',
-            'IMG20260301-WA0039.webp',  'IMG20260301-WA0040.webp',  'IMG20260301-WA0041.webp',
-            'IMG20260301-WA0042.webp',  'IMG20260301-WA0043.webp',  'IMG20260301-WA0044.webp',
-            'IMG20260310-WA0021.webp',  'IMG20260310-WA0025.webp',  'IMG20260310-WA0031.webp',
-            'IMG20260310-WA0032.webp',  'IMG20260310-WA0033.webp',  'IMG20260310-WA0034.webp',
-            'IMG20260310-WA0035.webp',  'IMG20260310-WA0036.webp',  'IMG20260310-WA0037.webp',
-            'IMG20260310-WA0038.webp',
-            'WhatsApp Image 2026-05-10 at 3.04.54 PM.webp',
-            'WhatsApp Image 2026-05-17 at 5.52.18 PM.webp',
-            'WhatsApp Image 2026-05-23 at 8.54.01 PM.webp',
-            'WhatsApp Image 2026-05-23 at 8.54.02 PM.webp',
-            'WhatsApp Image 2026-05-24 at 7.18.27 PM.webp',
-            'WhatsApp Image 2026-05-24 at 7.18.28 PM.webp',
-            'WhatsApp Image 2026-05-27 at 11.03.21 PM.webp',
-            'WhatsApp Image 2026-05-28 at 7.25.20 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.22.00 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.22.19 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.22.43 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.55.10 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.55.20 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.55.33 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.55.44 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.57.25 PM.webp',
-            'WhatsApp Image 2026-06-01 at 4.59.38 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.00.16 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.00.41 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.01.13 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.12.04 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.14.42 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.15.05 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.32 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.33 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.34 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.35 PM.webp',
-            'WhatsApp Image 2026-06-01 at 5.16.37 PM.webp',
+            'images/joy/IMG-20251224-WA0052.webp', 'images/joy/IMG-20251224-WA0055.webp', 'images/joy/IMG-20251224-WA0059.webp', 'images/joy/IMG-20251224-WA0060.webp', 'images/joy/IMG-20251224-WA0061.webp', 'images/joy/IMG-20251224-WA0062.webp', 'images/joy/IMG-20251224-WA0065.webp', 'images/joy/IMG-20251224-WA0074.webp', 'images/joy/IMG-20251224-WA0075.webp', 'images/joy/IMG-20251224-WA0076.webp', 'images/joy/IMG-20251224-WA0077.webp', 'images/joy/IMG-20251224-WA0129.webp', 'images/joy/IMG-20251224-WA0133.webp', 'images/joy/IMG-20251224-WA0134.webp', 'images/joy/IMG-20251224-WA0135.webp', 'images/joy/IMG-20251225-WA0035.webp', 'images/joy/IMG-20260101-WA0021.webp', 'images/joy/IMG-20260101-WA0022.webp', 'images/joy/IMG-20260101-WA0023.webp', 'images/joy/IMG-20260101-WA0027.webp', 'images/joy/IMG-20260101-WA0029.webp', 'images/joy/IMG-20260101-WA0031.webp', 'images/joy/IMG-20260101-WA0033.webp', 'images/joy/IMG-20260101-WA0034.webp', 'images/joy/IMG-20260101-WA0036.webp', 'images/joy/IMG-20260101-WA0037.webp', 'images/joy/IMG-20260101-WA0039.webp', 'images/joy/IMG-20260103-WA0023.webp', 'images/joy/IMG-20260104-WA0027.webp', 'images/joy/IMG-20260104-WA0028.webp', 'images/joy/IMG-20260104-WA0029.webp', 'images/joy/IMG-20260104-WA0030.webp', 'images/joy/IMG-20260104-WA0032.webp', 'images/joy/IMG-20260104-WA0033.webp', 'images/joy/IMG-20260104-WA0034.webp', 'images/joy/IMG-20260104-WA0035.webp', 'images/joy/IMG-20260104-WA0036.webp', 'images/joy/IMG-20260104-WA0037.webp', 'images/joy/IMG-20260104-WA0038.webp', 'images/joy/IMG-20260111-WA0007.webp', 'images/joy/IMG-20260111-WA0015.webp', 'images/joy/IMG-20260112-WA0051.webp', 'images/joy/IMG-20260112-WA0054.webp', 'images/joy/IMG-20260112-WA0057.webp', 'images/joy/IMG-20260120-WA0049.webp', 'images/joy/IMG-20260120-WA0051.webp', 'images/joy/IMG-20260120-WA0053.webp', 'images/joy/IMG-20260120-WA0055.webp', 'images/joy/IMG-20260120-WA0057.webp', 'images/joy/IMG-20260120-WA0059.webp', 'images/joy/IMG-20260120-WA0061.webp', 'images/joy/IMG-20260120-WA0063.webp', 'images/joy/IMG-20260120-WA0065.webp', 'images/joy/IMG20260120-WA0067.webp', 'images/joy/IMG20260120-WA0069.webp', 'images/joy/IMG20260121-WA0073.webp', 'images/joy/IMG20260121-WA0074.webp', 'images/joy/IMG20260121-WA0127.webp', 'images/joy/IMG20260121-WA0131.webp', 'images/joy/IMG20260121-WA0133.webp', 'images/joy/IMG20260121-WA0135.webp', 'images/joy/IMG20260121-WA0144.webp', 'images/joy/IMG20260121-WA0145.webp', 'images/joy/IMG20260122-WA0029.webp', 'images/joy/IMG20260122-WA0031.webp', 'images/joy/IMG20260122-WA0033.webp', 'images/joy/IMG20260122-WA0035.webp', 'images/joy/IMG20260122-WA0037.webp', 'images/joy/IMG20260122-WA0039.webp', 'images/joy/IMG20260122-WA0041.webp', 'images/joy/IMG20260127-WA0014.webp', 'images/joy/IMG20260215-WA0024.webp', 'images/joy/IMG20260215-WA0025.webp', 'images/joy/IMG20260215-WA0026.webp', 'images/joy/IMG20260215-WA0027.webp', 'images/joy/IMG20260215-WA0028.webp', 'images/joy/IMG20260228-WA0006.webp', 'images/joy/IMG20260228-WA0017.webp', 'images/joy/IMG20260228-WA0018.webp', 'images/joy/IMG20260228-WA0019.webp', 'images/joy/IMG20260228-WA0020.webp', 'images/joy/IMG20260228-WA0021.webp', 'images/joy/IMG20260228-WA0022.webp', 'images/joy/IMG20260228-WA0023.webp', 'images/joy/IMG20260228-WA0024.webp', 'images/joy/IMG20260228-WA0025.webp', 'images/joy/IMG20260228-WA0026.webp', 'images/joy/IMG20260301-WA0036.webp', 'images/joy/IMG20260301-WA0037.webp', 'images/joy/IMG20260301-WA0038.webp', 'images/joy/IMG20260301-WA0039.webp', 'images/joy/IMG20260301-WA0040.webp', 'images/joy/IMG20260301-WA0041.webp', 'images/joy/IMG20260301-WA0042.webp', 'images/joy/IMG20260301-WA0043.webp', 'images/joy/IMG20260301-WA0044.webp', 'images/joy/IMG20260310-WA0021.webp', 'images/joy/IMG20260310-WA0025.webp', 'images/joy/IMG20260310-WA0031.webp', 'images/joy/IMG20260310-WA0032.webp', 'images/joy/IMG20260310-WA0033.webp', 'images/joy/IMG20260310-WA0034.webp', 'images/joy/IMG20260310-WA0035.webp', 'images/joy/IMG20260310-WA0036.webp', 'images/joy/IMG20260310-WA0037.webp', 'images/joy/IMG20260310-WA0038.webp', 'images/joy/WhatsApp Image 2026-05-10 at 3.04.54 PM.webp', 'images/joy/WhatsApp Image 2026-05-17 at 5.52.18 PM.webp', 'images/joy/WhatsApp Image 2026-05-23 at 8.54.01 PM.webp', 'images/joy/WhatsApp Image 2026-05-23 at 8.54.02 PM.webp', 'images/joy/WhatsApp Image 2026-05-24 at 7.18.27 PM.webp', 'images/joy/WhatsApp Image 2026-05-24 at 7.18.28 PM.webp', 'images/joy/WhatsApp Image 2026-05-27 at 11.03.21 PM.webp', 'images/joy/WhatsApp Image 2026-05-28 at 7.25.20 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 4.22.00 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 4.22.19 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 4.22.43 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 4.55.10 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 4.55.20 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 4.55.33 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 4.55.44 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 4.57.25 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 4.59.38 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.00.16 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.00.41 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.01.13 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.12.04 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.14.42 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.15.05 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.16.32 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.16.33 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.16.34 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.16.35 PM.webp', 'images/joy/WhatsApp Image 2026-06-01 at 5.16.37 PM.webp'
         ];
+
+        let lastTime = 0;
+        function animateRain(time) {
+            if (time - lastTime > 3000) {
+                createPhoto();
+                lastTime = time;
+            }
+            requestAnimationFrame(animateRain);
+        }
 
         function createPhoto() {
             const container = document.getElementById('rainContainer');
             const img = document.createElement('img');
-            img.src = `images/joy/${photos[Math.floor(Math.random() * photos.length)]}`;
+            const src = photos[Math.floor(Math.random() * photos.length)];
+            img.src = src;
             img.className = 'falling-photo';
-
+            
             const startX = Math.random() * window.innerWidth;
             const duration = 12 + Math.random() * 8;
-
+            
             gsap.set(img, { x: startX, y: -250, opacity: 0, rotation: Math.random() * 20 - 10 });
             container.appendChild(img);
-
+            
             gsap.to(img, {
                 y: window.innerHeight + 250,
-                opacity: 0.85,
+                opacity: 0.4,
                 duration: duration,
-                ease: 'none',
+                ease: "none",
                 onComplete: () => img.remove()
             });
         }
 
-        setInterval(createPhoto, 800);
-
-        // ── Boot ───────────────────────────────────────────────
         window.addEventListener('load', () => {
+            requestAnimationFrame(animateRain);
             AOS.init({ duration: 1000, once: true });
         });
     </script>
 </body>
 </html>
-
