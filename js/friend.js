@@ -1,108 +1,33 @@
-// friend.js — Friendship Path Specific Logic
+const photos = [
+    'images/us/IMG20260108183729.jpg', 'images/us/IMG20260108183730.jpg', 'images/us/IMG20260108183731.jpg', 'images/us/IMG20260108183744.jpg', 'images/us/IMG20260108183746.jpg', 'images/us/IMG20260108183749.jpg', 'images/us/IMG20260108183751.jpg', 'images/us/IMG20260108183752.jpg', 'images/us/IMG20260109210630.jpg', 'images/us/IMG20260109210632.jpg', 'images/us/IMG20260109210633.jpg', 'images/us/IMG20260109210636.jpg', 'images/us/IMG20260109210637.jpg', 'images/us/IMG20260118124411.jpg', 'images/us/IMG20260118124412.jpg', 'images/us/IMG20260121211217.jpg', 'images/us/IMG20260121211232.jpg', 'images/us/IMG20260121211235.jpg', 'images/us/IMG20260124134812.jpg', 'images/us/IMG20260124134824.jpg', 'images/us/IMG20260124134826.jpg', 'images/us/IMG20260124134829.jpg', 'images/us/IMG20260124134831.jpg', 'images/us/IMG20260124134847.jpg', 'images/us/IMG20260124134849.jpg', 'images/us/IMG20260124134852.jpg', 'images/us/IMG20260125185714.jpg', 'images/us/IMG20260125185716.jpg', 'images/us/IMG20260125185750.jpg', 'images/us/IMG20260125185753.jpg', 'images/us/IMG20260125185754.jpg', 'images/us/IMG20260208133536.jpg', 'images/us/IMG20260208133538.jpg', 'images/us/IMG20260208133541.jpg', 'images/us/IMG20260208133815.jpg', 'images/us/IMG20260208133818.jpg', 'images/us/IMG20260208133820.jpg', 'images/us/IMG20260208133822.jpg', 'images/us/IMG20260208133825.jpg', 'images/us/IMG20260208133829.jpg', 'images/us/IMG20260208133830.jpg', 'images/us/IMG20260308161732.jpg', 'images/us/IMG20260308161744.jpg', 'images/us/IMG20260308161747.jpg', 'images/us/IMG20260308161751.jpg', 'images/us/IMG20260308161807.jpg', 'images/us/IMG20260308161811.jpg', 'images/us/IMG20260308161817.jpg', 'images/us/IMG20260308161818.jpg', 'images/us/IMG20260308161820.jpg', 'images/us/IMG20260315072717.jpg', 'images/us/IMG20260315072720.jpg', 'images/us/IMG20260330171115.jpg', 'images/us/IMG20260330171117.jpg', 'images/us/IMG20260330171121.jpg', 'images/us/IMG20260330171124.jpg', 'images/us/IMG20260330171125.jpg', 'images/us/IMG20260330171127.jpg', 'images/us/IMG20260330171128.jpg', 'images/us/IMG20260404110805.jpg', 'images/us/IMG20260404110807.jpg', 'images/us/IMG20260404110810.jpg', 'images/us/IMG20260404110948.jpg', 'images/us/IMG20260404110950.jpg', 'images/us/IMG20260404110955.jpg', 'images/us/IMG20260404110957.jpg', 'images/us/IMG20260404110959.jpg', 'images/us/IMG20260404111001.jpg', 'images/us/IMG20260404111005.jpg', 'images/us/IMG20260404111007.jpg', 'images/us/IMG20260404112817.jpg', 'images/us/IMG20260404112821.jpg', 'images/us/IMG20260404112822.jpg', 'images/us/IMG20260412153151.jpg', 'images/us/IMG20260412153155.jpg', 'images/us/IMG20260419151631.jpg', 'images/us/IMG20260419151633.jpg', 'images/us/IMG20260419151634.jpg', 'images/us/IMG20260419151706.jpg', 'images/us/IMG20260419151708.jpg', 'images/us/IMG20260419151712.jpg', 'images/us/IMG20260419151726.jpg', 'images/us/IMG20260419151727.jpg', 'images/us/IMG20260419151728.jpg', 'images/us/IMG20260419151730.jpg', 'images/us/IMG20260419151731.jpg', 'images/us/IMG20260419154926.jpg', 'images/us/IMG20260419154928.jpg', 'images/us/IMG20260419154943.jpg', 'images/us/IMG20260419154946.jpg', 'images/us/IMG20260426174451.jpg', 'images/us/IMG20260426174455.jpg', 'images/us/IMG20260426174549.jpg', 'images/us/IMG20260426174557.jpg', 'images/us/IMG20260426174558.jpg', 'images/us/IMG20260426174601.jpg', 'images/us/IMG20260426174602.jpg', 'images/us/IMG20260426174621.jpg', 'images/us/IMG20260426174624.jpg', 'images/us/IMG20260426174627.jpg', 'images/us/IMG20260426174640.jpg', 'images/us/IMG20260426174651.jpg', 'images/us/IMG20260426174654.jpg', 'images/us/IMG20260426174656.jpg', 'images/us/IMG20260426174659.jpg', 'images/us/IMG20260426174701.jpg', 'images/us/IMG20260426174826.jpg', 'images/us/IMG20260426174829.jpg', 'images/us/IMG20260426174830.jpg', 'images/us/IMG20260426175200.jpg', 'images/us/IMG20260426175202.jpg', 'images/us/IMG20260504124941.jpg', 'images/us/IMG20260504124951.jpg', 'images/us/IMG20260504124954.jpg', 'images/us/IMG20260504124957.jpg', 'images/us/IMG20260504124959.jpg', 'images/us/IMG20260504125004.jpg', 'images/us/IMG20260504125005.jpg', 'images/us/IMG20260524084457.jpg', 'images/us/IMG20260605180543.jpg', 'images/us/IMG20260605180549.jpg'
+];
 
-// Timeline Data - 6 Months from Dec 2025 to May 2026
-const timelineData = {
-  month1: {
-    label   : "December 2025",
-    title   : "The Beginning 🌱",
-    teaser  : "When our worlds first collided on the 7th.",
-    story   : "December 7th, 2025, was the day the magic started. Meeting you changed everything, and from that very first moment, I knew there was something incredibly special about you. It was the best start to our story.",
-    img     : "images/us/december.jpg"
-  },
-  month2: {
-    label   : "January 2026",
-    title   : "Finding Our Rhythm 🎵",
-    teaser  : "Starting the new year with a new connection.",
-    story   : "As we entered 2026, we started finding our own beautiful rhythm. We learned more about each other every day, and our connection grew from a spark into a steady, warm flame.",
-    img     : "images/us/january.jpg"
-  },
-  month3: {
-    label   : "February 2026",
-    title   : "Deepening Bonds 💜",
-    teaser  : "A month of warmth and growing trust.",
-    story   : "February was about building a foundation. We shared our hearts, our dreams, and our vulnerabilities, and I realized just how much I can trust and rely on you. You became my favorite person.",
-    img     : "images/us/february.jpg"
-  },
-  month4: {
-    label   : "March 2026",
-    title   : "Springing Forward 🌸",
-    teaser  : "Like flowers in spring, our friendship blossomed.",
-    story   : "March brought a new energy. Our relationship blossomed into something truly beautiful, and I couldn't imagine a single day without our chats, our laughs, and your presence in my life.",
-    img     : "images/us/march.jpg"
-  },
-  month5: {
-    label   : "April 2026",
-    title   : "Unbreakable Connection 💎",
-    teaser  : "Through the ups and downs, we stayed solid.",
-    story   : "April proved just how strong we are together. We faced life's challenges hand-in-hand, and every hurdle only served to make our bond more unbreakable. You are my rock.",
-    img     : "images/us/april.jpg"
-  },
-  month6: {
-    label   : "May 2026",
-    title   : "The Half-Year Mark 🥂",
-    teaser  : "Celebrating 6 months of being us.",
-    story   : "Six months of Joy and Moses. It’s been half a year of absolute happiness, and I’m so proud of the story we’ve written so far. This is still just the beginning of our forever.",
-    img     : "images/us/may.jpg"
-  }
-};
-
-function openTimelineEntry(month) {
-  const d = timelineData[month];
-  if (!d) return;
-  Swal.fire({
-    title: `<span style="color:#7B5EA7">${d.label}</span><br>${d.title}`,
-    html : `<div class="p-2">
-              <img src="${d.img}" onerror="this.src='https://via.placeholder.com/400x250?text=${d.label}'" 
-                   style="width:100%; border-radius:15px; margin-bottom:15px; box-shadow: 0 5px 15px rgba(0,0,0,0.3);">
-              <p style="text-align:left; font-size:1.1rem; line-height:1.6; color:#f0e0d0;">${d.story}</p>
-            </div>`,
-    confirmButtonText: 'Beautiful ❤️',
-    confirmButtonColor: '#7B5EA7',
-    background: '#1a0d14',
-    color: '#f0e0d0',
-    showClass: { popup: 'animate__animated animate__zoomIn' },
-    hideClass: { popup: 'animate__animated animate__fadeOut' }
-  });
-}
-
-// Goal Checklist
-function checkGoal(el) {
-  el.classList.toggle('checked');
-  const checkEl = el.querySelector('.goal-check');
-  if (checkEl) {
-      checkEl.textContent = el.classList.contains('checked') ? '☑' : '☐';
-  }
-  if (el.classList.contains('checked')) {
-    confetti({ 
-        particleCount: 30, 
-        spread: 60, 
-        origin: { y: 0.5 },
-        colors: ['#7B5EA7', '#E8A0BF'] 
+function createPhoto() {
+    const container = document.getElementById('rainContainer');
+    const img = document.createElement('img');
+    img.src = photos[Math.floor(Math.random() * photos.length)];
+    img.className = 'falling-photo';
+    
+    const startX = Math.random() * window.innerWidth;
+    const duration = 10 + Math.random() * 5;
+    
+    gsap.set(img, { x: startX, y: -200, opacity: 0 });
+    container.appendChild(img);
+    
+    gsap.to(img, {
+        y: window.innerHeight + 200,
+        opacity: 0.5,
+        duration: duration,
+        ease: "none",
+        onComplete: () => img.remove()
     });
-  }
-}
+    }
 
-function addGoal() {
-  const input = document.getElementById('goalInput');
-  if (!input) return;
-  const text = input.value.trim();
-  if (!text) return;
-  
-  const goalList = document.getElementById('goalList');
-  if (!goalList) return;
-
-  const div = document.createElement('div');
-  div.className = 'goal-item p-3 mb-2 glass-card cursor-pointer d-flex align-items-center';
-  div.onclick = () => checkGoal(div);
-  div.innerHTML = `<span class="goal-check me-3 fs-4">☐</span>
-                   <span class="goal-text fs-5">${text} (Joy added this ❤️)</span>`;
-  goalList.appendChild(div);
-  input.value = '';
-}
-
-// Flip Card mobile support
-document.addEventListener('DOMContentLoaded', () => {
-    document.querySelectorAll('.flip-card').forEach(card => {
-        card.addEventListener('click', () => card.classList.toggle('flipped'));
-    });
+window.addEventListener('load', () => {
+    setInterval(createPhoto, 1500);
+    AOS.init({ duration: 1000, once: true });
+    gsap.timeline()
+        .from('#friendTitle',    { opacity:0, y:50, duration:1.2, delay:0.4 })
+        .from('#friendSubtitle', { opacity:0, y:30, duration:0.9 }, '-=0.3')
+        .from('#friendStats',    { opacity:0, scale:0.9, duration:0.8 }, '-=0.2');
 });

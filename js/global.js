@@ -198,7 +198,7 @@ function initPageMusic() {
     const friendPlaylist = [
         'music/friendship/SAFE SPACE - Official Audio - Kinoti Kinyua (youtube).mp3',
         'music/friendship/CHAI YA SAA KUMI (LYRIC VIDEO)  - YWAYA TAJIRI - Ywaya Tajiri (youtube).mp3',
-        'music/shared/You are my honey bunch , cuppy cake song,sugar plum song with lyrics - Baby Syrup (youtube).mp3'
+        'music/friendship/Mutoriah - βeta (Official Video).mp3'
     ];
 
     const bdayPlaylist = [
@@ -212,9 +212,9 @@ function initPageMusic() {
         bgSrc = 'music/friendship/pray - Kinoti (youtube).mp3';
     } else if (fileName === 'bday-prayer.html') {
         bgSrc = 'music/birthday/Birthday Prayer for JUNE Children by PastorEAAdeboye - Soundfloss Production (youtube).mp3';
-    } else if (fileName === 'bday-finale.html' || fileName === 'bday-photo-rain.html') {
+    } else if (fileName === 'bday-photo-rain.html') {
         bgSrc = 'music/birthday/OCHIKO - LIKE YOU FT KINOTI (OFFICIAL AUDIO) - OCHIKO (youtube).mp3';
-    } else if (fileName === 'bday-wishes.html') {
+    } else if (fileName === 'bday-finale.html' || fileName === 'bday-wishes.html') {
         bgSrc = 'music/birthday/pray - Kinoti (youtube).mp3';
     } else if (fileName.startsWith('friend-')) {
         bgSrc = (savedSrc && friendPlaylist.includes(savedSrc)) ? savedSrc : friendPlaylist[0];

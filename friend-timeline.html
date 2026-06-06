@@ -73,6 +73,21 @@
         .leaf-date { font-family: 'Dancing Script', cursive; font-size: 1.2rem; color: #e8a0bf; }
         .leaf-title { font-family: 'Playfair Display', serif; font-size: 1.5rem; font-weight: bold; }
 
+        /* Falling Photo Style */
+        .falling-photo {
+            position: absolute;
+            width: 140px;
+            height: 170px;
+            object-fit: cover;
+            padding: 8px 8px 30px 8px; /* Frame look */
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #ddd;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
+
         @media (max-width: 992px) {
             .main-trunk { left: 40px; transform: none; }
             .leaf-node { left: 80px !important; right: auto !important; width: calc(100% - 100px); transform: none !important; }
@@ -80,7 +95,9 @@
     </style>
 </head>
 <body>
-    <main class="container py-20 text-center">
+    <div id="rainContainer" class="w-full h-full fixed inset-0 z-0"></div>
+
+    <main class="container py-20 text-center relative z-10">
         <h1 class="display-3 mb-2 fw-bold" data-aos="fade-down" style="font-family: 'Playfair Display', serif;">The Friendship Tree 🌳</h1>
         <p class="fs-4 mb-10 opacity-75" data-aos="fade-up">Our story, month by month.</p>
         
@@ -144,8 +161,48 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
     <script src="js/global.js"></script>
     <script src="js/friend.js"></script>
-    <script>window.addEventListener('load', () => { AOS.init({ duration: 1000, once: true }); });</script>
+    <script>
+        const photos = [
+            'images/us/IMG20260108183729.jpg', 'images/us/IMG20260108183730.jpg', 'images/us/IMG20260108183744.jpg', 
+            'images/us/IMG20260109210630.jpg', 'images/us/IMG20260109210636.jpg', 'images/us/IMG20260118124411.jpg', 
+            'images/us/IMG20260121211232.jpg', 'images/us/IMG20260124134812.jpg', 'images/us/IMG20260124134829.jpg', 
+            'images/us/IMG20260125185714.jpg', 'images/us/IMG20260125185750.jpg', 'images/us/IMG20260208133536.jpg', 
+            'images/us/IMG20260208133815.jpg', 'images/us/IMG20260208133825.jpg', 'images/us/IMG20260308161732.jpg', 
+            'images/us/IMG20260308161751.jpg', 'images/us/IMG20260308161811.jpg', 'images/us/IMG20260308161818.jpg', 
+            'images/us/IMG20260315072717.jpg', 'images/us/IMG20260330171115.jpg', 'images/us/IMG20260330171124.jpg', 
+            'images/us/IMG20260404110805.jpg', 'images/us/IMG20260404110948.jpg', 'images/us/IMG20260404110959.jpg', 
+            'images/us/IMG20260412153151.jpg', 'images/us/IMG20260419151631.jpg', 'images/us/IMG20260419151726.jpg', 
+            'images/us/IMG20260426174451.jpg', 'images/us/IMG20260426174621.jpg', 'images/us/IMG20260504124941.jpg'
+        ];
+
+        function createPhoto() {
+            const container = document.getElementById('rainContainer');
+            const img = document.createElement('img');
+            img.src = photos[Math.floor(Math.random() * photos.length)];
+            img.className = 'falling-photo';
+            
+            const startX = Math.random() * window.innerWidth;
+            const duration = 10 + Math.random() * 5;
+            
+            gsap.set(img, { x: startX, y: -200, opacity: 0 });
+            container.appendChild(img);
+            
+            gsap.to(img, {
+                y: window.innerHeight + 200,
+                opacity: 0.3,
+                duration: duration,
+                ease: "none",
+                onComplete: () => img.remove()
+            });
+        }
+
+        window.addEventListener('load', () => {
+            setInterval(createPhoto, 1500);
+            AOS.init({ duration: 1000, once: true });
+        });
+    </script>
 </body>
 </html>

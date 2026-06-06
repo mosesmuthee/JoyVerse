@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Raleway:ital,wght@0,100..900;1,100..900&family=Caveat:wght@400..700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
     <link rel="stylesheet" href="css/friend.css">
     <style>
@@ -19,16 +19,45 @@
             background-position: center;
             min-height: 100vh;
         }
-        .stat-card { background: rgba(255,255,255,0.08); backdrop-filter: blur(10px); border-radius: 20px; padding: 25px; border: 1px solid rgba(255,255,255,0.1); }
+        .stat-card {
+            background: rgba(255,255,255,0.08);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 25px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+        .hero-text-shadow {
+            text-shadow:
+                0 0 30px rgba(232, 160, 191, 0.9),
+                0 0 15px rgba(123, 94, 167, 0.7),
+                0 2px 8px rgba(0,0,0,0.6),
+                0 0 60px rgba(255,255,255,0.2);
+            color: #ffffff !important;
+            font-weight: 700;
+            letter-spacing: 0.02em;
+        }
+        .falling-photo {
+            position: absolute;
+            width: 140px;
+            height: 170px;
+            object-fit: cover;
+            padding: 8px 8px 30px 8px;
+            background: #fff;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            border: 1px solid #ddd;
+            pointer-events: none;
+            z-index: 0;
+            opacity: 0.4;
+        }
     </style>
 </head>
 <body>
-    <div id="particles-js" style="position: fixed; width: 100%; height: 100%; z-index: -1;"></div>
-    
-    <section class="hero-section d-flex flex-column justify-content-center align-items-center text-center p-4">
-        <h1 id="friendTitle" class="display-1 fw-bold mb-3">6 Months of Joy & Moses. 💜</h1>
-        <p id="friendSubtitle" class="fs-2 mb-5">Half a year of chaos, laughs, and everything in between.</p>
-        
+    <div id="rainContainer" class="w-full h-full fixed inset-0 z-0"></div>
+
+    <section class="hero-section d-flex flex-column justify-content-center align-items-center text-center p-4 relative z-10">
+        <h1 id="friendTitle" class="display-1 fw-bold mb-3 hero-text-shadow">6 Months of Joy & Moses. 💜</h1>
+        <p id="friendSubtitle" class="fs-2 mb-5 hero-text-shadow">Half a year of chaos, laughs, and everything in between.</p>
+
         <div id="friendStats" class="row g-4 w-100 max-w-4xl justify-content-center">
             <div class="col-md-3"><div class="stat-card"><h3 id="stat-months">6</h3><p>Months</p></div></div>
             <div class="col-md-3"><div class="stat-card"><h3 id="stat-days">...</h3><p>Days</p></div></div>
@@ -41,9 +70,7 @@
                 const now = new Date();
                 const diffTime = Math.abs(now - startDate);
                 const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
-                
                 const months = (now.getFullYear() - startDate.getFullYear()) * 12 + (now.getMonth() - startDate.getMonth());
-                
                 document.getElementById('stat-days').textContent = diffDays;
                 document.getElementById('stat-months').textContent = months;
             }
@@ -55,7 +82,7 @@
         </div>
     </section>
 
-    <section class="py-20 text-center container">
+    <section class="py-20 text-center container relative z-10">
         <button onclick="navigateTo('friend-timeline.html')" class="btn-glow px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up">
             See our story →
         </button>
@@ -70,16 +97,16 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
     <script src="js/global.js"></script>
     <script src="js/friend.js"></script>
     <script>
         window.addEventListener('load', () => {
-            launchPetals('particles-js');
+            setInterval(createPhoto, 1500);
+            AOS.init({ duration: 1000, once: true });
             gsap.timeline()
-                .from('#friendTitle',    { opacity:0, y:50, duration:1.2, delay:0.4 })
-                .from('#friendSubtitle', { opacity:0, y:30, duration:0.9 }, '-=0.3')
-                .from('#friendStats',    { opacity:0, scale:0.9, duration:0.8 }, '-=0.2');
+                .from('#friendTitle',    { opacity:0, y:50, duration:1.2, delay:0.4, clearProps:"all" })
+                .from('#friendSubtitle', { opacity:0, y:30, duration:0.9, clearProps:"all" }, '-=0.3')
+                .from('#friendStats',    { opacity:0, scale:0.9, duration:0.8, clearProps:"all" }, '-=0.2');
         });
     </script>
 </body>

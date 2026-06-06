@@ -11,136 +11,120 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Dancing+Script:wght@400..700&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="css/global.css">
-    <link rel="stylesheet" href="css/friend.css">
     <style>
-        body { background: #0d1a10; color: #f0f5f0; }
-        .tree-layout { position: relative; max-width: 1000px; margin: 0 auto; padding: 60px 20px; }
+        body { background: #0d1a10; color: #f5ede6; }
+        .tree-layout { position: relative; max-width: 1200px; margin: 0 auto; padding: 100px 20px; }
         
-        /* Central Trunk for this page */
         .appreciation-trunk {
-            position: absolute; left: 50%; top: 0; bottom: 100px; width: 6px;
+            position: absolute; left: 50%; top: 0; bottom: 100px; width: 10px;
             background: linear-gradient(to bottom, #2d1b10, #1a0d05);
             transform: translateX(-50%); z-index: 1; border-radius: 10px;
         }
 
         .leaf-box {
-            position: relative; width: 260px; height: 160px;
-            background: rgba(255, 255, 255, 0.05);
-            backdrop-filter: blur(8px);
-            border: 1px solid rgba(74, 150, 100, 0.3);
-            border-radius: 50% 50% 50% 50% / 12% 88% 12% 88%; /* Leaf shape */
-            cursor: pointer; z-index: 2; display: flex; align-items: center; justify-content: center;
-            text-align: center; padding: 20px; transition: all 0.4s ease;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+            position: relative; 
+            width: 500px; /* Even wider to fit full text */
+            min-height: 280px; 
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(74, 150, 100, 0.5);
+            border-radius: 60px 20px 60px 20px; 
+            cursor: pointer; z-index: 2; 
+            display: flex; flex-direction: column; align-items: center; justify-content: center;
+            text-align: center; padding: 40px; transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 15px 40px rgba(0,0,0,0.4);
         }
         .leaf-box:hover {
-            transform: scale(1.1) translateY(-10px);
+            transform: scale(1.05);
             background: rgba(74, 150, 100, 0.2);
             border-color: #4a9664;
-            box-shadow: 0 15px 35px rgba(74, 150, 100, 0.4);
+            box-shadow: 0 20px 50px rgba(74, 150, 100, 0.5);
         }
 
-        .leaf-row { display: flex; justify-content: space-between; margin-bottom: 60px; width: 100%; position: relative; }
+        .leaf-row { display: flex; justify-content: space-between; margin-bottom: 120px; width: 100%; position: relative; }
         .leaf-row:nth-child(even) { flex-direction: row-reverse; }
 
         .leaf-number {
-            position: absolute; top: -10px; font-size: 3rem; font-weight: bold;
-            color: rgba(255,255,255,0.1); font-family: 'Playfair Display', serif;
+            font-size: 1.6rem; font-weight: bold; color: #4a9664;
+            font-family: 'Playfair Display', serif; margin-bottom: 15px;
         }
-        .leaf-text { font-family: 'Nunito', sans-serif; font-size: 1.1rem; line-height: 1.4; }
+        .leaf-text { 
+            font-family: 'Nunito', sans-serif; font-size: 1.15rem; line-height: 1.8; 
+            color: #d1dadd; letter-spacing: 0.5px;
+        }
         
-        @media (max-width: 768px) {
-            .appreciation-trunk { left: 20px; }
-            .leaf-row { flex-direction: column !important; align-items: flex-start !important; padding-left: 50px; }
-            .leaf-box { width: 100%; margin-bottom: 30px; }
+        @media (max-width: 992px) {
+            .appreciation-trunk { left: 40px; }
+            .leaf-row { flex-direction: column !important; align-items: flex-start !important; padding-left: 70px; }
+            .leaf-box { width: 100%; margin-bottom: 50px; }
         }
     </style>
 </head>
 <body>
     <main class="container py-20 text-center">
-        <h1 class="display-3 mb-2 fw-bold" data-aos="fade-down" style="font-family: 'Playfair Display', serif;">Things I'll Never Take For Granted 💜</h1>
-        <p class="fs-4 mb-10 opacity-75" data-aos="fade-up" data-aos-delay="200">The little things that mean the most to me.</p>
+        <h1 class="display-2 mb-4 fw-bold" data-aos="fade-down" style="font-family: 'Playfair Display', serif;">Things I'll Never Take For Granted 💜</h1>
+        <p class="fs-3 mb-16 opacity-80" data-aos="fade-up" data-aos-delay="200">Joy🥺, I'm grateful not only for who you are, but also for who you've helped me become. 🌹 It's the little things that mean the most to me.</p>
         
         <div class="tree-layout">
             <div class="appreciation-trunk"></div>
 
-            <!-- 6 Boxes styled as leaves -->
             <div class="leaf-row" data-aos="fade-right">
                 <div class="leaf-box">
-                    <span class="leaf-number">01</span>
-                    <div class="leaf-content-wrapper">
-                        <p class="leaf-text">[MOSES: Your first gratitude here]</p>
-                    </div>
+                    <span class="leaf-number">1. The Way You Care About Me ❤️</span>
+                    <p class="leaf-text">One of the things I'm most grateful for is the way you've cared for me over these past months. You've checked in on me when I wasn't okay, listened to me when I needed someone to talk to, and reminded me that I didn't have to carry everything alone. There have been moments when I didn't even realize how much I needed support until you were already there giving it. Your care has made me feel valued, understood, and loved in ways I never expected.</p>
                 </div>
-                <div style="width: 50%;"></div> <!-- Spacer -->
+                <div style="width: 40%;"></div>
             </div>
 
             <div class="leaf-row" data-aos="fade-left">
                 <div class="leaf-box">
-                    <span class="leaf-number">02</span>
-                    <div class="leaf-content-wrapper">
-                        <p class="leaf-text">[MOSES: Your second gratitude here]</p>
-                    </div>
+                    <span class="leaf-number">2. The Way You Challenge Me To Be Better </span>
+                    <p class="leaf-text">I'm grateful that you never allow me to stay comfortable in my weaknesses. You've challenged my thinking, questioned my decisions, corrected me when I was wrong, and pushed me to become a better version of myself. Even when I don't immediately agree with you 😂, I always end up learning something. You've helped me grow more than you probably realize.</p>
                 </div>
-                <div style="width: 50%;"></div>
+                <div style="width: 40%;"></div>
             </div>
 
             <div class="leaf-row" data-aos="fade-right">
                 <div class="leaf-box">
-                    <span class="leaf-number">03</span>
-                    <div class="leaf-content-wrapper">
-                        <p class="leaf-text">[MOSES: Your third gratitude here]</p>
-                    </div>
+                    <span class="leaf-number">3. The Wisdom You've Shared With Me </span>
+                    <p class="leaf-text">Some of the best lessons I've learned over the past few months have come through conversations with you. Whether we're talking about faith, life, relationships, decisions, or just random situations, you always seem to offer a perspective that helps me see things differently. Because of you, I've become more thoughtful, more patient, and more intentional in many areas of my life.</p>
                 </div>
-                <div style="width: 50%;"></div>
+                <div style="width: 40%;"></div>
             </div>
 
             <div class="leaf-row" data-aos="fade-left">
                 <div class="leaf-box">
-                    <span class="leaf-number">04</span>
-                    <div class="leaf-content-wrapper">
-                        <p class="leaf-text">[MOSES: Your fourth gratitude here]</p>
-                    </div>
+                    <span class="leaf-number">4. The Safe Space You've Become For Me 🤍</span>
+                    <p class="leaf-text">I'm grateful that I can talk to you about almost anything. When life gets overwhelming, when I'm confused, frustrated, anxious, excited, or simply overthinking, you're one of the first people I want to talk to. You've created a space where I can be honest without feeling judged, and that's something I'll always treasure. Not everyone gets to have someone they can be completely themselves around, and I'm grateful that I have that with you.</p>
                 </div>
-                <div style="width: 50%;"></div>
+                <div style="width: 40%;"></div>
             </div>
 
             <div class="leaf-row" data-aos="fade-right">
                 <div class="leaf-box">
-                    <span class="leaf-number">05</span>
-                    <div class="leaf-content-wrapper">
-                        <p class="leaf-text">[MOSES: Your fifth gratitude here]</p>
-                    </div>
+                    <span class="leaf-number">5. The Way You've Been There For Me </span>
+                    <p class="leaf-text">Life has had its ups and downs, but through it all you've remained present. You've celebrated my wins, listened during my struggles, laughed with me during the random moments, and stayed around through seasons when I wasn't always easy to deal with 😭😂. Knowing that I can count on you means more to me than words can fully express.</p>
                 </div>
-                <div style="width: 50%;"></div>
+                <div style="width: 40%;"></div>
             </div>
 
             <div class="leaf-row" data-aos="fade-left">
                 <div class="leaf-box">
-                    <span class="leaf-number">06</span>
-                    <div class="leaf-content-wrapper">
-                        <p class="leaf-text">[MOSES: Your sixth gratitude here]</p>
-                    </div>
+                    <span class="leaf-number">6. The Person You've Helped Me Become </span>
+                    <p class="leaf-text">More than anything else, I'm grateful for the impact you've had on my life. Before you, I kept many things to myself. Before you, I carried a lot of struggles alone. Before you, I found it harder to open up and let people in. Because of your friendship, I've grown. I've healed. I've learned. I've become more open, more self-aware, and more confident in who I am. The person I am today is better than the person I was before we met, and a huge part of that is because God placed you in my life.</p>
                 </div>
-                <div style="width: 50%;"></div>
+                <div style="width: 40%;"></div>
             </div>
         </div>
 
-        <button onclick="navigateTo('friend-goals.html')" class="btn-glow mt-20 px-10 py-4 fs-3 rounded-full bg-white text-black border-none" data-aos="fade-up">
+        <button onclick="navigateTo('friend-goals.html')" class="btn-glow mt-10 px-12 py-5 fs-2 rounded-full bg-white text-black border-none" data-aos="fade-up">
             Our future →
         </button>
     </main>
-
-    <button id="musicToggleBtn" onclick="MusicSystem.toggle()"
-      style="position:fixed; bottom:20px; right:20px; z-index:9999;
-             background:rgba(255,255,255,0.1); border:none; border-radius:50%;
-             width:48px; height:48px; font-size:20px; cursor:pointer;
-             backdrop-filter:blur(10px);">🎵</button>
-
+    <button id="musicToggleBtn" onclick="MusicSystem.toggle()" style="position:fixed; bottom:20px; right:20px; z-index:9999; background:rgba(255,255,255,0.1); border:none; border-radius:50%; width:48px; height:48px; font-size:20px; cursor:pointer; backdrop-filter:blur(10px);">🎵</button>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script src="js/global.js"></script>
-    <script src="js/friend.js"></script>
     <script>window.addEventListener('load', () => { AOS.init({ duration: 1000, once: true }); });</script>
 </body>
 </html>

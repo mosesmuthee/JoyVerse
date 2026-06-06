@@ -40,27 +40,12 @@
         <p class="fs-4 mb-10 opacity-75" data-aos="fade-up">A checklist for the next 6 months and beyond.</p>
         
         <div id="goalList" class="w-100 max-w-2xl text-start mb-10">
-            <div class="goal-item d-flex align-items-center" onclick="this.classList.toggle('checked')" data-aos="fade-right">
-                <span class="goal-check">☐</span>
-                <span class="goal-text fs-5">Make a million more memories together. 💜</span>
-            </div>
-            <div class="goal-item d-flex align-items-center" onclick="this.classList.toggle('checked')" data-aos="fade-left">
-                <span class="goal-check">☐</span>
-                <span class="goal-text fs-5">Always be each other's safe space. 🏠</span>
-            </div>
-            <div class="goal-item d-flex align-items-center" onclick="this.classList.toggle('checked')" data-aos="fade-right">
-                <span class="goal-check">☐</span>
-                <span class="goal-text fs-5">Keep laughing through the chaos. 😂</span>
-            </div>
-            <div class="goal-item d-flex align-items-center" onclick="this.classList.toggle('checked')" data-aos="fade-left">
-                <span class="goal-check">☐</span>
-                <span class="goal-text fs-5">Travel to somewhere new. ✈️</span>
-            </div>
+            <!-- Goals injected here -->
         </div>
 
         <div class="w-100 max-w-2xl d-flex gap-2 mb-20" data-aos="fade-up">
             <input id="goalInput" type="text" class="form-control bg-transparent text-white border-secondary p-3" placeholder="Add a goal of your own...">
-            <button onclick="addGoal()" class="btn btn-outline-light px-4">Add ❤️</button>
+            <button onclick="addNewGoal()" class="btn btn-outline-light px-4">Add ❤️</button>
         </div>
 
         <button onclick="navigateTo('friend-letter.html')" class="btn-glow mt-auto px-10 py-4 fs-3 rounded-full">
@@ -78,24 +63,47 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.3/dist/confetti.browser.min.js"></script>
     <script src="js/global.js"></script>
     <script>
-        window.addEventListener('load', () => { AOS.init({ duration: 1000, once: true }); });
-        
-        function addGoal() {
-            const input = document.getElementById('goalInput');
-            const val = input.value.trim();
-            if(!val) return;
+        window.addEventListener('load', async () => {
+            AOS.init({ duration: 1000, once: true });
             
+            // Initial defaults if empty
+            const saved = await fetchFutureGoals();
+            if(saved.length === 0) {
+                const defaults = [
+                    "Make a million more memories together. 💜",
+                    "Always be each other's safe space. 🏠",
+                    "Keep laughing through the chaos. 😂",
+                    "Travel to somewhere new. ✈️"
+                ];
+                for(const d of defaults) await saveNewGoal(d);
+            }
+            renderGoals();
+        });
+
+        async function renderGoals() {
             const list = document.getElementById('goalList');
-            const div = document.createElement('div');
-            div.className = 'goal-item d-flex align-items-center';
-            div.onclick = function() { 
-                this.classList.toggle('checked');
-                if(this.classList.contains('checked')) confetti({ particleCount: 30, spread: 50 });
-            };
-            div.innerHTML = `<span class="goal-check">☐</span><span class="goal-text fs-5">${val} (Added ❤️)</span>`;
-            list.appendChild(div);
+            list.innerHTML = '';
+            const goals = await fetchFutureGoals();
+            goals.forEach(goal => {
+                const div = document.createElement('div');
+                div.className = `goal-item d-flex align-items-center ${goal.is_checked ? 'checked' : ''}`;
+                div.onclick = async () => {
+                    goal.is_checked = !goal.is_checked;
+                    await toggleGoalCheck(goal.id, goal.is_checked);
+                    renderGoals();
+                    if(goal.is_checked) confetti({ particleCount: 30, spread: 50 });
+                };
+                div.innerHTML = `<span class="goal-check">${goal.is_checked ? '☑' : '☐'}</span><span class="goal-text fs-5">${goal.text}</span>`;
+                list.appendChild(div);
+            });
+        }
+        
+        async function addNewGoal() {
+            const input = document.getElementById('goalInput');
+            if(!input.value.trim()) return;
+            await saveNewGoal(input.value);
             input.value = '';
-            confetti({ particleCount: 50, spread: 70 });
+            renderGoals();
         }
     </script>
 </body>
