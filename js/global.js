@@ -203,3 +203,4 @@ function navigateTo(url, delay = 600) {
         window.location.href = url;
     }, delay);
 }
+

@@ -36,7 +36,7 @@ const bdayMemories = {
   m1: {
     title: "[MOSES FILLS: Memory Title]",
     text : "[MOSES FILLS: Full memory, 2-4 sentences]",
-    img  : "images/joy/joy-2.jpg"
+    img  : "images/joy/joy-2.webp"
   },
   // Add more memories here
 };
@@ -90,10 +90,11 @@ function openGift() {
         Swal.fire({
             title: 'Happy Birthday, Joy! 🎂',
             html: '[MOSES WRITES: Gift message — 2-3 warm sentences]',
-            imageUrl: 'images/joy/joy-1.jpg',
+            imageUrl: 'images/joy/joy-1.webp',
             imageWidth: 220, imageAltText: 'Joy',
             confirmButtonText: '💛 Thank you',
             confirmButtonColor: '#D4A017'
         });
     }, 400);
 }
+
