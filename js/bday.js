@@ -1,7 +1,7 @@
 // bday.js — Birthday Path Specific Logic
 
 // Countdown Timer logic
-const JOY_BIRTHDAY = new Date('2026-06-03T00:00:00'); // [MOSES FILLS: YYYY-MM-DD]
+const JOY_BIRTHDAY = new Date('2003-06-12T00:00:00'); // Joy's actual birth date
 
 function updateCounter() {
   const now  = new Date();
@@ -36,7 +36,7 @@ const bdayMemories = {
   m1: {
     title: "[MOSES FILLS: Memory Title]",
     text : "[MOSES FILLS: Full memory, 2-4 sentences]",
-    img  : "images/joy/joy-2.webp"
+    img  : "images/joy/IMG-20251224-WA0055.webp"
   },
   // Add more memories here
 };
@@ -90,7 +90,7 @@ function openGift() {
         Swal.fire({
             title: 'Happy Birthday, Joy! 🎂',
             html: '[MOSES WRITES: Gift message — 2-3 warm sentences]',
-            imageUrl: 'images/joy/joy-1.webp',
+            imageUrl: 'images/joy/IMG-20251224-WA0052.webp',
             imageWidth: 220, imageAltText: 'Joy',
             confirmButtonText: '💛 Thank you',
             confirmButtonColor: '#D4A017'
